@@ -3,7 +3,7 @@ id: PRD-MATCH-E1-S2
 type: story
 epic: PRD-MATCH-E1
 status: draft
-lang: vi
+lang: en
 owner: Trần Bảo Hiếu
 version: 0.2.0
 created: 2026-06-02

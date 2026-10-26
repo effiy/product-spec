@@ -19,7 +19,7 @@ from fs_guard import assert_under_docs_product
 
 
 # Languages the store is keyed by. Mirrors the bilingual convention (en default).
-LANGS = frozenset({"en", "vi"})
+LANGS = frozenset({"en"})
 
 # The list-valued voice fields of a po-style lang block.
 PO_STYLE_LIST_FIELDS = ("vocabulary", "recurring_asks", "do", "dont")
@@ -65,8 +65,7 @@ def load_raw(path: Path) -> Dict[str, Any]:
 
 
 def load(path: Path, lang: str = "en") -> Dict[str, Any]:
-    """Return the voice block for ONE language. Reading `vi` never returns `en`
-    voice — the store is strictly lang-partitioned."""
+    """Return the voice block for ONE language. The store is lang-partitioned (English-only)."""
     raw = load_raw(path)
     return raw.get(lang, _empty_lang_block())
 

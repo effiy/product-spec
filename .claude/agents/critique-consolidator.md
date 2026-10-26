@@ -89,8 +89,8 @@ Structure — **render every heading AND every label in `lang`; an `en` report c
 heading, no why/fix label, no register token, no stray `sửa ngay`/`Toang ở đâu`). The skeleton below shows the
 `vi` heading forms; for `lang: en` use the English set verbatim: `## Top 3: fix now` · `## By lens` · `## Delivery
 risk from children` · `## Inherited from parent` · `## Repeat offenders` · `## Worth recording as a decision
-(DEC-worthy)` (and the placeholder "không có" becomes "none"). The why/fix labels follow the bilingual table in
-`voice-and-tone.md` §Per-finding shape — pick the column matching `lang`.
+(DEC-worthy)` (and the placeholder "none" stays "none"). The why/fix labels follow the table in
+`voice-and-tone.md` §Per-finding shape — pick the matching `lang`.
 
 ```
 # Critique: <scope>  ·  level <N>  ·  lenses: product, tech, market, craft  [missing: <lens> if any]

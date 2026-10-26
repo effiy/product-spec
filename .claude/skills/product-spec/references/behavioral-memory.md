@@ -58,7 +58,7 @@ voice:
 
 At **prose-generation** time. Before composing the vision narrative, a story description, or an `AskUserQuestion`,
 read `load_po_style(root, lang)` for the **active session lang** and let the PO's vocabulary / register / do-don't
-shape the wording. The read hook-line lives in `references/workflow-interview.md` (§ Bilingual Handling).
+shape the wording. The read hook-line lives in `references/workflow-interview.md` (§ Language Handling).
 
 ### Write trigger (keeps the store from staying empty — but soft, not guaranteed)
 
@@ -190,7 +190,7 @@ hidden, all committed). But a `slip` or `reminder` can **echo PO wording** verba
 different lifecycles:
 
 - **3D is PO-authored intent** — the PO owns their voice; it is read on every prose generation and shapes user-facing
-  output. It is bilingual (lang-keyed) because voice is language-specific.
+  output. It is lang-keyed because voice is language-specific.
 - **3E is session-derived** — the *skill* owns its conduct memory; it is read before at-risk ops and never surfaces as
   voice. It is lang-agnostic (a slip is a behavior, not a phrasing).
 

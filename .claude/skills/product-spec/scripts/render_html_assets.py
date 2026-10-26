@@ -62,7 +62,7 @@ _BODY_RENDER_JS = (
     # + its render callback; the filter machinery below is identical. Hoisting it
     # here (mirroring psRegisterDetail) closes the board/explorer divergence risk
     # the detail-panel comment calls out. psBuildFacets localizes the Layer-facet
-    # chip values (L[v]) so a --lang vi facet matches the Flat-tabs tab labels.
+    # chip values (L[v]) so a facet matches the Flat-tabs tab labels.
     "\nvar psFacetGroups=['status','moscow','horizon','persona','layer'];"
     "\nfunction psDistinct(records,group){var seen={};records.forEach(function(c){var v=group==='persona'?c.personas:[c[group]];(v||[]).forEach(function(x){if(x){seen[x]=true;}});});return Object.keys(seen).sort();}"
     # `state.facets[g]||{}` guards let the engine tolerate a shell that hasn't

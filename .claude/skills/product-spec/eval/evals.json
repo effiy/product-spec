@@ -808,20 +808,6 @@
    ]
   },
   {
-   "id": "route-lang",
-   "_assertion_type": "llm_advisory",
-   "_note": "ROUTING-SELECTION probe (Phase 2, reasoning gate for SKILL.md flag-table compaction). Ambiguous PO ask must route to the right flag WITHOUT the ask naming it. Interview/output language switch (IDs/frontmatter stay English).",
-   "prompt": "From now on, run the interview with me in Vietnamese.",
-   "expected_output": "Router chooses --lang vi; loads references/workflow-lang.md; no other flag mis-selected.",
-   "assertions": [
-    {
-     "id": "route-lang-flag",
-     "_gating": "llm_advisory",
-     "text": "From this ambiguous ask (no flag named), the router selects --lang vi and loads references/workflow-lang.md."
-    }
-   ]
-  },
-  {
    "id": "route-export",
    "_assertion_type": "llm_advisory",
    "_note": "ROUTING-SELECTION probe (Phase 2, reasoning gate for SKILL.md flag-table compaction). Ambiguous PO ask must route to the right flag WITHOUT the ask naming it. One self-contained shareable doc, distinct from --summary (one-pager) and --viz (picture).",

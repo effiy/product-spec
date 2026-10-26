@@ -1,55 +1,38 @@
-/* ---------------- language toggle ---------------- */
-function setLang(l){
-  document.body.classList.toggle('lang-vi', l==='vi');
-  document.body.classList.toggle('lang-en', l==='en');
-  document.getElementById('btn-en').classList.toggle('active', l==='en');
-  document.getElementById('btn-vi').classList.toggle('active', l==='vi');
-  document.documentElement.lang = l;
-  try{ localStorage.setItem('psh-lang', l); }catch(e){}
-}
-(function(){ try{ var s=localStorage.getItem('psh-lang'); if(s) setLang(s);}catch(e){} })();
-
 /* honor prefers-reduced-motion across canvas + counters */
 var REDUCED = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
 
 /* ---------------- voice level dial (critique page) ---------------- */
 var LEVELS = {
-  1:{en:["Warm","Polite, encouraging. Artifact only — never you.","--warm"], vi:["Ấm áp","Lịch sự, động viên. Chỉ hiện vật — không nhắm bạn.","--warm"], danger:false},
-  2:{en:["Gentle","Soft-spoken notes, kindly framed.","--gentle"], vi:["Nhẹ nhàng","Góp ý nhẹ, đóng khung tử tế.","--gentle"], danger:false},
-  3:{en:["Blunt","Direct, no cushioning — still about the work.","--blunt"], vi:["Thẳng","Trực diện, không đệm — vẫn về công việc.","--blunt"], danger:false},
-  4:{en:["Savage","Sharp and unsparing on the artifact.","--savage"], vi:["Gắt","Sắc và không nương tay với hiện vật.","--savage"], danger:false},
-  5:{en:["No-mercy","The default. Brutal, may jab you, but all about the work.","--no-mercy (default)"], vi:["Không khoan nhượng","Mặc định. Tàn nhẫn, có thể đá xéo bạn, nhưng vẫn về công việc.","--no-mercy (mặc định)"], danger:false},
-  6:{en:["Roast","Roasts you as the author. Opt-in — asks to confirm.","--roast"], vi:["Quay","Chửi thẳng bạn với tư cách tác giả. Opt-in — hỏi xác nhận.","--roast"], danger:true},
-  7:{en:["Harsher register","Escalates the Vietnamese register (ông/tôi → mày/tao). Opt-in.","level 7"], vi:["Bậc gắt hơn","Leo thang đại từ (ông/tôi → mày/tao). Opt-in.","mức 7"], danger:true},
-  8:{en:["Harsher still","Stronger register, still grounded in evidence + a fix.","level 8"], vi:["Gắt hơn nữa","Đại từ mạnh hơn, vẫn dựa bằng chứng + cách sửa.","mức 8"], danger:true},
-  9:{en:["Work-profanity","Work-aimed profanity. RE-CONFIRMS on every run; declines down to 8.","level 9"], vi:["Chửi thề (vào việc)","Chửi thề nhắm-công-việc. HỎI LẠI mỗi lần chạy; từ chối thì lùi về 8.","mức 9"], danger:true}
+  1:["Warm","Polite, encouraging. Artifact only — never you.","--warm",false],
+  2:["Gentle","Soft-spoken notes, kindly framed.","--gentle",false],
+  3:["Blunt","Direct, no cushioning — still about the work.","--blunt",false],
+  4:["Savage","Sharp and unsparing on the artifact.","--savage",false],
+  5:["No-mercy","The default. Brutal, may jab you, but all about the work.","--no-mercy (default)",false],
+  6:["Roast","Roasts you as the author. Opt-in — asks to confirm.","--roast",true],
+  7:["Harsher register","Escalates the Vietnamese register (ông/tôi → mày/tao). Opt-in.","level 7",true],
+  8:["Harsher still","Stronger register, still grounded in evidence + a fix.","level 8",true],
+  9:["Work-profanity","Work-aimed profanity. RE-CONFIRMS on every run; declines down to 8.","level 9",true]
 };
 function setLevel(v){
   v = +v;
   var L = LEVELS[v];
-  var lang = document.body.classList.contains('lang-vi') ? 'vi' : 'en';
-  var d = L[lang];
+  var danger = L[3];
   var knob = document.getElementById('knob');
   knob.style.left = ((v-1)/8*100) + '%';
-  knob.style.borderColor = L.danger ? '#dc2626' : '#34d399';
-  var tag = L.danger
-    ? '<span class="dangertag danger">'+(lang==='vi'?'Nguy hiểm · opt-in':'Danger · opt-in')+'</span>'
-    : '<span class="dangertag safe">'+(lang==='vi'?'An toàn · hiện vật':'Safe · artifact-only')+'</span>';
+  knob.style.borderColor = danger ? '#dc2626' : '#34d399';
+  var tag = danger
+    ? '<span class="dangertag danger">Danger · opt-in</span>'
+    : '<span class="dangertag safe">Safe · artifact-only</span>';
   document.getElementById('readout').innerHTML =
-    '<div class="lv" style="color:'+(L.danger?'#fb5e7e':'#38bdf8')+'">'+v+'</div>'+
-    '<div class="nm">'+d[0]+'</div>'+
-    '<div class="alias">'+d[2]+'</div>'+
-    '<div class="ds" style="margin-top:6px">'+d[1]+'</div>'+
+    '<div class="lv" style="color:'+(danger?'#fb5e7e':'#38bdf8')+'">'+v+'</div>'+
+    '<div class="nm">'+L[0]+'</div>'+
+    '<div class="alias">'+L[2]+'</div>'+
+    '<div class="ds" style="margin-top:6px">'+L[1]+'</div>'+
     tag;
 }
 // dial only exists on the critique page — guard so dial-less pages don't throw
 if(document.getElementById('vrange')){
   setLevel(5);
-  // re-render readout text when language flips
-  ['btn-en','btn-vi'].forEach(function(id){
-    var b = document.getElementById(id);
-    if(b) b.addEventListener('click', function(){ var r=document.getElementById('vrange'); if(r) setLevel(r.value); });
-  });
 }
 
 /* ---------------- scroll reveal + bar fill + counters ---------------- */
@@ -235,7 +218,7 @@ function initHero3D(){
     if(!heads.length){ layout.classList.remove('has-toc'); return; }
     var label = document.createElement('div');
     label.className = 'toc-h';
-    label.innerHTML = '<span class="en">On this page</span><span class="vi">Trên trang này</span>';
+    label.innerHTML = 'On this page';
     tocEl.appendChild(label);
     var links = [];
     heads.forEach(function(h){
@@ -278,8 +261,6 @@ function initHero3D(){
   var ev=document.getElementById('fev'), sp=document.getElementById('fsp'), lv=document.getElementById('flv'),
       body=document.getElementById('fbody'), ftext=document.getElementById('ftext'), flock=document.getElementById('flock');
   var unlocked=false, cur=0;
-  function lang(){ return document.body.classList.contains('lang-vi') ? 'vi':'en'; }
-  function L10n(vi,en){ return lang()==='vi'?vi:en; }
   function defIdx(){ for(var i=0;i<levels.length;i++) if(levels[i].n===3) return i; return 0; }
   function md(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
                           .replace(/\*\*(.+?)\*\*/g,'<b>$1</b>').replace(/`([^`]+)`/g,'<code>$1</code>'); }
@@ -296,19 +277,18 @@ function initHero3D(){
       b.classList.toggle('locked', levels[i].danger && !unlocked);
     });
     ev.textContent=data.evidence; sp.textContent=data.spec;
-    lv.textContent='L'+Lv.n+' · '+(lang()==='vi'?Lv.alias_vi:Lv.alias_en);
-    ftext.innerHTML=md(Lv.vi);
+    lv.textContent='L'+Lv.n+' · '+Lv.alias_en;
+    ftext.innerHTML=md(Lv.en || '');
     body.classList.toggle('blur', gated);
     if(unlocked){
-      flock.innerHTML='🔓 <span>'+L10n('Đã mở mức 7–9. ','Levels 7–9 unlocked. ')+'</span><a data-fl="hide">'+L10n('Ẩn lại','Hide again')+'</a>';
+      flock.innerHTML='🔓 <span>Levels 7–9 unlocked. </span><a data-fl="hide">Hide again</a>';
     } else {
-      flock.innerHTML='🔒 <span>'+L10n('Mức 7–9 (chửi thề nhắm-công-việc) đang ẩn. ','Levels 7–9 (work-targeted profanity) hidden. ')+'</span><a data-fl="show">'+L10n('Hiện','Reveal')+'</a>';
+      flock.innerHTML='🔒 <span>Levels 7–9 (work-targeted profanity) hidden. </span><a data-fl="show">Reveal</a>';
     }
     var a=flock.querySelector('a');
     if(a) a.addEventListener('click', function(){ unlocked=(a.dataset.fl==='show'); if(!unlocked && levels[cur].danger) cur=defIdx(); render(); });
   }
   var rv=document.getElementById('dgate-reveal'); if(rv) rv.addEventListener('click', function(){ unlocked=true; render(); });
-  ['btn-en','btn-vi'].forEach(function(id){ var b=document.getElementById(id); if(b) b.addEventListener('click', render); });
   cur=defIdx(); render();
 })();
 

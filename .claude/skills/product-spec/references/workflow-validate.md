@@ -287,7 +287,7 @@ When generating reports or summaries:
   `{{changes_since_approved}}` value from the governance audit trail:
   `assemble_audit_trail.since_last_approved(root)` → `render_release_delta_md(delta, lang)`. Fill the
   `release_notes` template: `generate_templates.py --type release_notes --values <json> --write` →
-  `docs/product/release-notes.md`. Bilingual via session `lang`.
+  `docs/product/release-notes.md`. Renders via session `lang`.
   - **Dependency:** `release-notes` needs the audit trail; `exec` is independent and ships
     without it. If the audit trail is unavailable, only `release-notes` is gated — `exec` always works.
 

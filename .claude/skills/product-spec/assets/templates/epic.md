@@ -36,31 +36,31 @@ risks: {{risks}}
 
 # {{title}} — Epic {{id}}
 
-## Goal | Mục tiêu
+## Goal
 
 {{goal}}
 
-## Business Context | Bối cảnh kinh doanh
+## Business Context
 
-- **PRD requirement | Yêu cầu PRD:** {{prd_requirement_ref}}
-- **BRD goal | Mục tiêu BRD:** {{brd_goal_ref}}
+- **PRD requirement** {{prd_requirement_ref}}
+- **BRD goal** {{brd_goal_ref}}
 
-## Success Criteria | Tiêu chí thành công
+## Success Criteria
 
 {{success_criteria}}
 
-## Scope | Phạm vi
+## Scope
 
 {{scope_section}}
 
 <!-- OPTIONAL: risks_section -->
-## Risks | Rủi ro
+## Risks
 
 {{risks_section}}
 <!-- /OPTIONAL -->
 
 <!-- OPTIONAL: stories_overview -->
-## Stories Overview | Tổng quan Stories
+## Stories Overview
 
 {{stories_overview}}
 <!-- /OPTIONAL -->

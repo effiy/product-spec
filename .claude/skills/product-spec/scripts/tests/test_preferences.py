@@ -231,11 +231,11 @@ def test_engagement_knobs_default_standard(tmp_path):
 def test_engagement_knobs_backward_compat(tmp_path):
     # An old preferences.yaml written WITHOUT the new keys still resolves them to
     # `standard` (non-breaking: missing keys degrade to defaults).
-    _write_prefs(tmp_path, "lang: vi\ndetail_level: concise\n")
+    _write_prefs(tmp_path, "lang: en\ndetail_level: concise\n")
     prefs = preferences.load(tmp_path)
     assert prefs["interview_rigor"] == "standard"
     assert prefs["action_prompting"] == "standard"
-    assert prefs["lang"] == "vi"
+    assert prefs["lang"] == "en"
 
 
 def test_engagement_knobs_enum_values_round_trip(tmp_path):
@@ -279,11 +279,11 @@ def test_set_load_merge_preserves_other_keys(tmp_path):
     # Seed an existing file with unrelated keys, then --set one engagement knob.
     # The pre-existing keys MUST survive (save() is a blind full-dict overwrite, so
     # the CLI has to load→merge→save — red-team finding A).
-    _write_prefs(tmp_path, "lang: vi\ncritique_level: 9\n")
+    _write_prefs(tmp_path, "lang: en\ncritique_level: 9\n")
     res = _run_cli(tmp_path, "--set", "interview_rigor=deep")
     assert res.returncode == 0, res.stderr
     prefs = preferences.load(tmp_path)
-    assert prefs["lang"] == "vi"
+    assert prefs["lang"] == "en"
     assert prefs["critique_level"] == 9
     assert prefs["interview_rigor"] == "deep"
 
@@ -299,12 +299,12 @@ def test_set_multiple_keys_one_call(tmp_path):
 
 
 def test_set_bad_enum_nonzero_and_file_unchanged(tmp_path):
-    _write_prefs(tmp_path, "lang: vi\n")
+    _write_prefs(tmp_path, "lang: en\n")
     res = _run_cli(tmp_path, "--set", "interview_rigor=bad")
     assert res.returncode != 0
     # Nothing was written: the seeded file is intact and the knob is still default.
     prefs = preferences.load(tmp_path)
-    assert prefs["lang"] == "vi"
+    assert prefs["lang"] == "en"
     assert prefs["interview_rigor"] == "standard"
 
 
@@ -314,7 +314,7 @@ def test_set_value_splits_on_first_equals(tmp_path):
     res = _run_cli(tmp_path, "--set", "lang=en=extra")
     assert res.returncode != 0
     # Sanity: a clean value with no stray `=` works.
-    res2 = _run_cli(tmp_path, "--set", "lang=vi")
+    res2 = _run_cli(tmp_path, "--set", "lang=en")
     assert res2.returncode == 0, res2.stderr
     assert preferences.load(tmp_path)["lang"] == "vi"
 
@@ -345,13 +345,13 @@ def test_set_int_passthrough_key_coerces(tmp_path):
 def test_set_unknown_key_rejected_nonzero(tmp_path):
     # A typo'd key must NOT silently no-op: save() drops unknown keys, so the CLI rejects
     # them up front (exit non-zero) rather than printing "saved" while writing nothing.
-    _write_prefs(tmp_path, "lang: vi\n")
+    _write_prefs(tmp_path, "lang: en\n")
     res = _run_cli(tmp_path, "--set", "interview_rigour=deep")  # British-spelling typo
     assert res.returncode != 0
     # Nothing changed: the real knob is still default, the seeded key intact.
     prefs = preferences.load(tmp_path)
     assert prefs["interview_rigor"] == "standard"
-    assert prefs["lang"] == "vi"
+    assert prefs["lang"] == "en"
 
 
 def test_set_float_floor_rejects_non_numeric_at_write_time(tmp_path):

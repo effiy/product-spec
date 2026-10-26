@@ -3,7 +3,7 @@ id: PRD-SAFETY
 type: prd
 brd_goals: [BRD-G1, BRD-G2]
 status: draft
-lang: vi
+lang: en
 owner: Trần Bảo Hiếu
 version: 0.1.0
 created: 2026-06-02

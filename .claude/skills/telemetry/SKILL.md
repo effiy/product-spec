@@ -1,25 +1,25 @@
 ---
 name: cleanmatic:telemetry
-description: "Plain-Vietnamese read on how the PO's skills are actually used + whether their scripts/subagents are healthy + a thin internal-quality proxy (did validate pass). Runs read-only lenses over local telemetry (invocations, sessions, script runs, subagent outcomes, memory) and narrates them honestly — usage & health, NOT market effectiveness. Outputs ascii/markdown/mermaid/json."
+description: "Plain-English read on how the PO's skills are actually used + whether their scripts/subagents are healthy + a thin internal-quality proxy (did validate pass). Runs read-only lenses over local telemetry (invocations, sessions, script runs, subagent outcomes, memory) and narrates them honestly — usage & health, NOT market effectiveness. Outputs ascii/markdown/mermaid/json."
 user-invocable: true
-when_to_use: "When the (non-technical) product owner asks how their skills are being used, which scripts error or run slow, whether subagents succeed, whether memory is tidy, or whether the last spec validate passed — and wants it explained in plain Vietnamese, not raw logs."
+when_to_use: "When the (non-technical) product owner asks how their skills are being used, which scripts error or run slow, whether subagents succeed, whether memory is tidy, or whether the last spec validate passed — and wants it explained in plain English, not raw logs."
 category: observability
-keywords: [telemetry, usage, health, skills, tokens, sessions, reliability, subagents, memory, validate, vietnamese, dashboard, analytics]
-argument-hint: "[--lens usage|session|health|reliability|workflow|validate|memory|product_memory|artifact_heat|forensics|all] [--format ascii|md|mermaid|json] [--days N] [--top N] [--lang vi|en]"
+keywords: [telemetry, usage, health, skills, tokens, sessions, reliability, subagents, memory, validate, dashboard, analytics]
+argument-hint: "[--lens usage|session|health|reliability|workflow|validate|memory|product_memory|artifact_heat|forensics|all] [--format ascii|md|mermaid|json] [--days N] [--top N] [--lang en]"
 metadata:
   author: cleanmatic
   version: "1.1.1"
 ---
 
-# cleanmatic:telemetry — Usage & Health (Mức dùng & Sức khỏe)
+# cleanmatic:telemetry — Usage & Health
 
-A **read-only** skill that tells the product owner, **in plain Vietnamese**, three things about their own tooling:
+A **read-only** skill that tells the product owner, **in plain English**, three things about their own tooling:
 
-1. **Mức dùng (Usage)** — which skills get used (and how often), token weight per skill, and which skills are never touched.
-2. **Sức khỏe (Health)** — which scripts error or run slow (approx), whether subagents succeed/fail, whether memory is tidy.
-3. **Một tín hiệu chất lượng nội bộ (a thin internal-quality proxy)** — after a `product-spec` run, did `validate` pass.
+1. **Usage** — which skills get used (and how often), token weight per skill, and which skills are never touched.
+2. **Health** — which scripts error or run slow (approx), whether subagents succeed/fail, whether memory is tidy.
+3. **A thin internal-quality proxy** — after a `product-spec` run, did `validate` pass.
 
-**Honest framing — this is "mức dùng & sức khỏe", NOT "hiệu quả".** It measures *whether the machinery runs*, never *whether the product wins in the market*. (Product-outcome tracking shipped separately as `product-spec --learn`, but even that records PO-declared outcomes vs goals offline — still NOT a market-effectiveness metric.) The narration MUST keep that line bright (see the honesty gate below).
+**Honest framing — this is "usage & health", NOT "effectiveness".** It measures *whether the machinery runs*, never *whether the product wins in the market*. (Product-outcome tracking shipped separately as `product-spec --learn`, but even that records PO-declared outcomes vs goals offline — still NOT a market-effectiveness metric.) The narration MUST keep that line bright (see the honesty gate below).
 
 ## What this is NOT
 
@@ -30,7 +30,7 @@ A **read-only** skill that tells the product owner, **in plain Vietnamese**, thr
 
 ## How it runs (deterministic gather → LLM narrates)
 
-The split both repos follow: a **script gathers** (deterministic, never judges), the **skill narrates** (judges, in VI). The skill NEVER recomputes a number — it narrates the script's dict.
+The split both repos follow: a **script gathers** (deterministic, never judges), the **skill narrates** (judges, in English). The skill NEVER recomputes a number — it narrates the script's dict.
 
 ```bash
 # Recipient bundle: system python3 with PyYAML (the bundle's single runtime dep, shipped via product-spec).
@@ -41,10 +41,10 @@ python3 ./.claude/skills/telemetry/scripts/analyze_telemetry.py \
 
 Default behaviour when the PO invokes `/cleanmatic:telemetry`:
 1. Run `analyze_telemetry.py --lens all --format ascii`.
-2. Read the aggregates; **narrate in Vietnamese** (default). Switch to English with `--lang en` (the script also localizes its fixed labels) or just "in English".
-3. Lead with the honesty gate; recommendations are **gợi ý (suggestions)** only.
+2. Read the aggregates; **narrate in English**. 
+3. Lead with the honesty gate; recommendations are suggestions only.
 
-Pass-through flags: `--lens <name>`, `--format md|mermaid|json`, `--days N`, `--top N`, `--lang vi|en` (fixed-label language, vi default), `--session <id>` / `--all-sessions` (forensics). Runs under system `python3`; needs PyYAML (the bundle's single runtime dependency, shipped with product-spec).
+Pass-through flags: `--lens <name>`, `--format md|mermaid|json`, `--days N`, `--top N`, `--lang en` (fixed-label language, English default), `--session <id>` / `--all-sessions` (forensics). Runs under system `python3`; needs PyYAML (the bundle's single runtime dependency, shipped with product-spec).
 
 ## Lenses
 
@@ -62,18 +62,18 @@ Pass-through flags: `--lens <name>`, `--format md|mermaid|json`, `--days N`, `--
 | `forensics`  | session transcript JSONL              | one session reconstructed (skills/tools/tokens/files/duration) |
 | `all`        | the above (minus forensics)           | the dashboard-lite the PO reads first |
 
-## Low-volume gate (chưa đủ dữ liệu)
+## Low-volume gate (insufficient data)
 
-Below ~5 data points a lens shows raw counts + **"chưa đủ dữ liệu"** and **suppresses recommendations**. On a thin/new repo most lenses WILL be gated — say so plainly; do not invent trends.
+Below ~5 data points a lens shows raw counts + **"insufficient data"** and **suppresses recommendations**. On a thin/new repo most lenses WILL be gated — say so plainly; do not invent trends.
 
 ## Narration & honesty gate (mandatory)
 
 Detailed rubric: `references/narration-contract.md`. The non-negotiable parts:
 
-- **Separate MEASURED from NOT-MEASURED.** Every report MUST end with a section **"Cái này KHÔNG đo được"** naming at minimum: market/user outcome (this skill measures usage/health, not market effectiveness); plus any lens that is empty/gated on current data → call it "chưa đủ dữ liệu", never spin it.
-- **Approx is approx.** Token weight, `ms`, and `exit` are inferred/directional — say "ước lượng", never present them as exact.
-- **Suggestions, not verdicts.** Phrase any action as a gợi ý the PO may ignore; the skill has no authority to prune skills, edit memory, or change scope.
-- **VI is native-quality** — correct diacritics, natural register for a non-technical owner; numbers stay numbers, skill ids stay ascii.
+- **Separate MEASURED from NOT-MEASURED.** Every report MUST end with a section **"This CANNOT be measured"** naming at minimum: market/user outcome (this skill measures usage/health, not market effectiveness); plus any lens that is empty/gated on current data → call it "insufficient data", never spin it.
+- **Approx is approx.** Token weight, `ms`, and `exit` are inferred/directional — say "estimate", never present them as exact.
+- **Suggestions, not verdicts.** Phrase any action as a suggestion the PO may ignore; the skill has no authority to prune skills, edit memory, or change scope.
+- **English is native-quality** — natural register for a non-technical owner; numbers stay numbers, skill ids stay ascii.
 
 ## Hook config & crash log
 

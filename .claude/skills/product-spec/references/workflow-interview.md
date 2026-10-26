@@ -1,6 +1,6 @@
 # Workflow — Interview & Generate
 
-End-to-end workflow the LLM follows for the **product / brd / prd / epic / story** flags (and the no-flag init flow). Phased, resumable, adaptive, bilingual.
+End-to-end workflow the LLM follows for the **product / brd / prd / epic / story** flags (and the no-flag init flow). Phased, resumable, adaptive, English-only.
 
 ## Detect State (no-flag entry)
 
@@ -250,11 +250,10 @@ Recording rules:
 
 The Validation Log is the verbatim source the no-silent-reversal protocol reads back to the PO before any regeneration — see `workflow-update.md → No Silent Reversal`.
 
-## Bilingual Handling
+## Language Handling
 
-- `.session.md.lang` carries the active language (`en` or `vi`).
-- `AskUserQuestion` text + options use the active language; IDs and frontmatter keys stay English.
-- VI ships best-effort. If the PO writes mixed EN/VI, accept both, normalize whitespace, but keep the answer in whatever language the PO used.
+- The interview and prose are in English.
+- `AskUserQuestion` text + options use English; IDs and frontmatter keys stay English.
 
 ### PO-style read (behavioral memory 3D)
 
@@ -262,11 +261,11 @@ Before composing any prose for the PO — the vision narrative, a story descript
 `AskUserQuestion` — read the PO's voice store for the **active session lang** and let it shape the wording:
 
 ```bash
-./.claude/skills/.venv/bin/python3 scripts/behavioral_memory.py --root <root> --lang <en|vi> --dump po-style
+./.claude/skills/.venv/bin/python3 scripts/behavioral_memory.py --root <root> --lang en --dump po-style
 ```
 
 Use the returned `vocabulary` (the PO's own terms — prefer these over synonyms), `register` (tone), `recurring_asks`,
-and `do`/`dont` to tune *how* the prose reads. It is lang-partitioned: a `vi` read never returns `en` voice. This shapes
+and `do`/`dont` to tune *how* the prose reads. It is lang-partitioned. This shapes
 PHRASING only — it never re-homes a structural fact (DRY). Full spec + the DRY guard (incl. the LLM-side persona-label
 check) in `references/behavioral-memory.md`.
 

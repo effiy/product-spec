@@ -4,7 +4,7 @@ type: epic
 prd: PRD-CHAT
 brd_goals: [BRD-G1]
 status: draft
-lang: vi
+lang: en
 owner: Trần Bảo Hiếu
 version: 0.1.0
 created: 2026-06-02

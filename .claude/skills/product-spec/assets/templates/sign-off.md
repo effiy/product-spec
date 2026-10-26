@@ -5,19 +5,18 @@ Also adds the `approval:` block to the artifact frontmatter (handled by generate
 
 ---
 
-## Sign-Off | Phê duyệt
+## Sign-Off
 
-| Field | Value | Trường | Giá trị |
+| Field | Value |
 |-------|-------|--------|---------|
-| Artifact | {{artifact_id}} | Tài liệu | {{artifact_id}} |
-| Approved by | {{approved_by}} | Phê duyệt bởi | {{approved_by}} |
-| Approved at | {{approved_at}} | Phê duyệt ngày | {{approved_at}} |
-| Approved version | {{approved_version}} | Phiên bản phê duyệt | {{approved_version}} |
-| Stakeholders | {{stakeholders}} | Bên liên quan | {{stakeholders}} |
+| Artifact | {{artifact_id}} |
+| Approved by | {{approved_by}} |
+| Approved at | {{approved_at}} |
+| Approved version | {{approved_version}} |
+| Stakeholders | {{stakeholders}} |
 
 <!-- OPTIONAL: notes -->
-**Notes | Ghi chú:** {{approval_notes}}
+**Notes** {{approval_notes}}
 <!-- /OPTIONAL -->
 
 > Open issues at approval time (warn-not-block): {{open_issues_at_approval}}
-> Vấn đề còn để mở khi phê duyệt (cảnh báo, không chặn): {{open_issues_at_approval}}

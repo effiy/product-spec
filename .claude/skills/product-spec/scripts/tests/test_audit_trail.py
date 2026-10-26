@@ -63,15 +63,13 @@ def test_orphaned_approval_is_unreconciled(tmp_path):
     assert "unreconciled" in out
 
 
-def test_bilingual_labels(tmp_path):
+def test_english_labels(tmp_path):
     root = _spec_root(tmp_path)
     _write(root / "docs/product/change-log.md",
            "# CL\n\n## 2026-06-01 — x | y\n\n- **Artifact | T:** PRD-X (prd)\n- **Action | H:** created | tao\n")
     data = aat.assemble(root)
     en = aat.render_markdown(data, "en")
-    vi = aat.render_markdown(data, "vi")
     assert "Who approved" in en
-    assert "Người duyệt" in vi
 
 
 def test_empty_state(tmp_path):
@@ -79,7 +77,7 @@ def test_empty_state(tmp_path):
     data = aat.assemble(root)
     assert data["events"] == []
     assert "No audit events yet." in aat.render_ascii(data, "en")
-    assert "Chưa có sự kiện" in aat.render_ascii(data, "vi")
+    assert "No audit events yet." in aat.render_ascii(data, "en")
 
 
 @pytest.mark.bug_class  # cross-cutting invariant: HTML audit escapes every dynamic field (XSS-watch)
@@ -115,6 +113,6 @@ def test_html_escapes_malicious_dynamic_fields():
 
 
 def test_html_empty_state_escaped():
-    html = render_html.audit({"events": []}, "vi")
+    html = render_html.audit({"events": []}, "en")
     assert "audit-empty" in html
-    assert "Chưa có sự kiện" in html
+    assert "No audit events yet." in html

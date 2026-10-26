@@ -7,7 +7,7 @@ the body-render substrate.
 CLI:
     render_export.py --root <dir> --export <all|ID|list>
         [--layers vision,brd,prd,epic,story] [--depth context|full|brief]
-        [--compact-mode struct|llm] [--format md|html] [--lang en|vi]
+        [--compact-mode struct|llm] [--format md|html] [--lang en]
 
 Output: docs/product/exports/<stem>-<ts>-<hash8>.<md|html>. The doc body is
 deterministic and the content HASH is stable (computed over the timestamp-free
@@ -159,7 +159,7 @@ def render_markdown_doc(
     lines.append("---")
     lines.append("")
     # Body H1 localizes via the same i18n key as the HTML chrome title (so .md and
-    # .html agree under --lang vi); CR/LF in the name collapse to a space so a
+    # .html agree); CR/LF in the name collapse to a space so a
     # multi-line PRODUCT name can't garble the heading into a setext rule.
     heading_name = product_name.replace("\r", " ").replace("\n", " ")
     lines.append(f"# {label('export', lang)} — {heading_name}")
@@ -275,7 +275,7 @@ def main() -> int:
     ap.add_argument("--depth", default="context", choices=["context", "full", "brief"])
     ap.add_argument("--compact-mode", dest="compact_mode", default="struct", choices=["struct", "llm"])
     ap.add_argument("--format", default="md", choices=["md", "html"])
-    ap.add_argument("--lang", default="en", choices=["en", "vi"])
+    ap.add_argument("--lang", default="en", choices=["en"])
     args = ap.parse_args()
 
     layers = [s.strip() for s in args.layers.split(",") if s.strip()] if args.layers else None

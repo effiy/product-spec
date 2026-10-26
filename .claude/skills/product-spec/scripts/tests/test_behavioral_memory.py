@@ -4,7 +4,7 @@ Two NEW behavioral stores extend the memory layer:
 
   - **3D PO-style** (`docs/product/.memory/po-style.yaml`, committed): the product
     owner's voice — register, their own domain vocabulary, recurring asks, do/don't
-    phrasing — kept **lang-keyed** (`en` / `vi`). Read at prose-generation time to
+    phrasing — kept **lang-keyed** (`en`). Read at prose-generation time to
     shape OUTPUT wording; written when the PO corrects generated wording.
   - **3E LLM-self-correction** (`docs/product/.memory/self-corrections.json`,
     committed): a recurring slip + the operating principle it violated + a
@@ -53,35 +53,21 @@ def _run_cli(root, *args):
     )
 
 
-# ---------- Test 1: 3D po-style is lang-keyed ----------
+# ---------- Test 1: 3D po-style (English-only) ----------
 
-def test_po_style_lang_keyed(tmp_path):
-    """Voice observations are stored per-lang; reading `vi` never returns `en`
-    voice (and vice versa). The PO's vocabulary in one language must not leak into
-    the prose generated in the other."""
+
+def test_po_style_english_only(tmp_path):
+    """Voice observations are stored per-lang (English-only)."""
     bm.record_po_style(
         tmp_path, lang="en",
         vocabulary=["shopper", "store admin"],
         recurring_asks=["always include a one-line summary"],
         do=["use 'shopper' not 'customer'"],
     )
-    bm.record_po_style(
-        tmp_path, lang="vi",
-        vocabulary=["người mua"],
-        register="thân thiện nhưng ngắn gọn",
-    )
 
     en = bm.load_po_style(tmp_path, lang="en")
-    vi = bm.load_po_style(tmp_path, lang="vi")
-
     assert "shopper" in en["vocabulary"]
     assert "store admin" in en["vocabulary"]
-    # The vi read must NOT surface any en-only vocabulary.
-    assert "shopper" not in vi["vocabulary"]
-    assert "người mua" in vi["vocabulary"]
-    # And the en read must not surface vi-only voice.
-    assert vi["register"] == "thân thiện nhưng ngắn gọn"
-    assert en.get("register") in (None, "")
 
     # A lang with no observations resolves to an empty (not crashing) shape.
     none_yet = bm.load_po_style(tmp_path, lang="en")
@@ -276,17 +262,13 @@ def test_voice_records_vocabulary(tmp_path):
     assert "shopper" in en["vocabulary"]
 
 
-def test_voice_lang_keyed(tmp_path):
-    """`--voice --lang vi` writes into the vi partition ONLY; the en block stays
-    empty. Voice is strictly lang-partitioned, so a vi observation never leaks into
-    en-generated prose."""
-    proc = _run_cli(tmp_path, "--voice", "--lang", "vi", "--vocabulary", "người mua")
+def test_voice_cli_writes_to_lang_partition(tmp_path):
+    """`--voice --lang en` writes into the en partition via CLI."""
+    proc = _run_cli(tmp_path, "--voice", "--lang", "en", "--vocabulary", "shopper")
     assert proc.returncode == 0, proc.stderr
 
-    vi = bm.load_po_style(tmp_path, lang="vi")
     en = bm.load_po_style(tmp_path, lang="en")
-    assert "người mua" in vi["vocabulary"]
-    assert en["vocabulary"] == []
+    assert "shopper" in en["vocabulary"]
 
 
 def test_voice_dry_guard(tmp_path):

@@ -3,7 +3,7 @@ id: PRD-FUND-E1-S1
 type: story
 epic: PRD-FUND-E1
 status: draft
-lang: vi
+lang: en
 owner: TBD
 version: 0.1.0
 created: 2026-06-06

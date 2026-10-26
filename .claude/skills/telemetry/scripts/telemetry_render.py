@@ -3,9 +3,9 @@ ascii (terminal one-glance) + mermaid (fenced charts) renderers, plus md. md/jso
 reuse formatters.py. NO HTML (D4 — avoids vendored-asset / shipped-render coupling).
 NO network, NO inlined JS, NO asset reads — pure text only.
 
-Bilingual scaffolding: every FIXED label (headings, banners, column headers, notes,
-disclaimers) is localized via the single `_T` dict, selected by `lang` ("vi" default,
-matching the skill's Vietnamese-first narration; "en" on `--lang en`). DYNAMIC data
+Fixed scaffolding: every FIXED label (headings, banners, column headers, notes,
+disclaimers) is selected from the single `_T` dict by `lang` ("en" default;
+the skill is English-only). DYNAMIC data
 (numbers, skill ids, script paths, chains) stays language-neutral — the LLM narrates
 the interpretive prose on top. One dict = one source of truth (DRY); the LLM is NOT
 re-implemented here, only the static frame is translated.
@@ -126,108 +126,6 @@ _T: dict[str, dict] = {
         # harvester suggestions (P7)
         "suggest_h": "## Suggestions",
         "suggest_none": "_No suggestions — keep going!_",
-    },
-    "vi": {
-        "banner": "== TELEMETRY: MỨC DÙNG & SỨC KHỎE ==",
-        "gate": "_Chưa đủ dữ liệu — chỉ số liệu thô, không khuyến nghị._",
-        "no_lenses": "_Không có lens nào để hiển thị._",
-        "no_chart": "> Chưa có dữ liệu phù hợp để vẽ biểu đồ.",
-        "lens_error": "⚠ Lens `{lens}` lỗi: {error}",
-        # usage
-        "usage_h": "## Mức dùng kỹ năng ({days} ngày gần đây)\n",
-        "usage_total": "Tổng lượt gọi: **{inv}** trên **{used}** kỹ năng; catalog {cat}.\n",
-        "usage_cols": ["#", "Kỹ năng", "Lượt"],
-        "usage_tokens": "Tokens",
-        "usage_never": "\n**Chưa dùng lần nào (sở hữu):** {n}",
-        "usage_more": " … (+{n} nữa)",
-        "usage_ext": "\n_(+{n} kỹ năng ngoài (vendored) cũng chưa dùng — bình thường, không phải ứng viên để xóa.)_",
-        "a_usage": "MỨC DÙNG — {inv} lượt gọi, {used} đã dùng, {nu} sở hữu chưa dùng{ext}",
-        "a_ext": " (+{n} ngoài)",
-        # session
-        "session_h": "## Phiên làm việc\n",
-        "session_cols": ["Chỉ số", "Giá trị"],
-        "session_rows": ["Số phiên", "Thời lượng TB (s)", "Thời lượng trung vị (s)",
-                         "Tệp đã sửa (tổng)", "Subagent (tổng)"],
-        "session_cooc": "\n**Kỹ năng dùng chung phiên:**",
-        "session_cooc_cols": ["Cặp", "Số phiên"],
-        "a_session": "PHIÊN — {n} phiên, TB {avg}s, {files} tệp, {sub} subagent",
-        # health
-        "health_h": "## Sức khỏe script (ước lượng)\n",
-        "health_total": "Lần chạy: **{r}**, lỗi: **{e}** trên {s} script.\n",
-        "health_cols": ["Script", "Chạy", "Lỗi", "Tỷ lệ lỗi", "TB"],
-        "a_health": "SỨC KHỎE — {r} lần chạy, {e} lỗi trên {s} script",
-        # reliability
-        "rel_h": "## Độ tin cậy subagent ({days} ngày gần đây)\n",
-        "rel_cols": ["Loại agent", "Tổng", "Thành công", "Lỗi API", "Timeout", "Bị chặn", "Không rõ"],
-        "rel_failmodes": "\n**Kiểu lỗi phổ biến:** ",
-        "a_rel": "ĐỘ TIN CẬY — {n} lượt chạy subagent",
-        "a_rel_row": "   {agent}: {ok}% ok (api={api} timeout={to} chặn={bl} không rõ={un})",
-        # workflow
-        "wf_h": "## Chuỗi workflow ({days} ngày gần đây, {n} phiên)\n",
-        "wf_thin": "_Dữ liệu mỏng: {n} < tối thiểu {m} phiên — chỉ hiện chuỗi quan sát được, chưa kết luận sai lệch._\n",
-        "wf_common": "**Chuỗi phổ biến nhất:**",
-        "wf_cols": ["Chuỗi", "Số lần"],
-        "wf_none": "_Chưa quan sát thấy chuỗi nhiều kỹ năng._",
-        "wf_dev": "\n**Sai lệch so với chuỗi khai báo:**",
-        "wf_declared": "\n**Số chuỗi khai báo (data/skill-chains.yaml):** {n}",
-        "a_wf": "WORKFLOW — {n} phiên, {c} chuỗi, {d} sai lệch",
-        # memory
-        "mem_h": "## Sức khỏe bộ nhớ — {status} ({n} bộ nhớ, {issues} vấn đề)\n",
-        "mem_readonly": "(chỉ đọc)",
-        "mem_orphans": "Tệp mồ côi",
-        "mem_dead": "Mục index chết",
-        "mem_broken": "Liên kết [[hỏng]]",
-        "mem_dupes": "Tên trùng",
-        "mem_invalid": "Frontmatter không hợp lệ",
-        "mem_stale": "Cũ (tham khảo)",
-        "mem_missing": "thiếu",
-        "mem_invtype": "type sai",
-        "a_mem": "BỘ NHỚ — {status}, {n} bộ nhớ, {issues} vấn đề (mồ côi={o} chết={d} hỏng={b})",
-        # product memory (docs/product/.memory)
-        "pmem_h": "## Bộ nhớ sản phẩm — {status} ({issues} vấn đề)\n",
-        "pmem_absent": "_Chưa có store — spec chưa sinh bộ nhớ._",
-        "pmem_validated": "**Validate gần nhất:** {age}",
-        "pmem_never": "chưa bao giờ",
-        "pmem_missing": "Tệp trạng thái thiếu",
-        "pmem_cache": "**Cache critique:** {n} tệp, {bytes} B",
-        "pmem_findings": "**Findings đã index:** {n}",
-        "a_pmem": "BỘ NHỚ SẢN PHẨM — {status}, {issues} vấn đề (validate={age}, cache={cache})",
-        # forensics
-        "fx_h": "## Phân tích phiên (forensics)",
-        "fx_none": "_Không tìm thấy transcript phiên nào._",
-        "fx_h_count": "## Phân tích phiên (forensics) ({n} phiên, {tok} tokens)\n\n",
-        "fx_cols": ["Phiên", "Kỹ năng", "Tool", "Subagent", "Tokens", "T.lượng", "Tệp"],
-        "a_fx": "FORENSICS — {n} phiên, {tok} tokens",
-        # validate
-        "val_h": "## Proxy hiệu quả — validate-pass (chất lượng nội bộ)\n",
-        "val_na": "chưa có dữ liệu",
-        "val_na_reason": "chưa có dữ liệu (không có marker validate, không có lần chạy script validate)",
-        "val_pr_none": "không có (không có lần validate nào trong cửa sổ)",
-        "val_cols": ["Chỉ số", "Giá trị"],
-        "val_rate": "Tỷ lệ validate-pass",
-        "val_last": "Trạng thái cuối",
-        "val_runs": "Số lần",
-        "val_source": "Nguồn",
-        "val_disclaimer": "\n_Đo chất lượng spec nội bộ (validate đã pass) — KHÔNG phải hiệu quả thị trường/người dùng (E3, hoãn lại)._",
-        "a_val": "VALIDATE-PROXY — {pr} (cuối: {last}) [chất lượng nội bộ, không phải E3]",
-        "a_val_na": "VALIDATE-PROXY — {reason}",
-        "a_val_pr_none": "không có",
-        "a_val_pr": "{pr}% pass",
-        # mermaid
-        "mm_usage_title": "Mức dùng kỹ năng",
-        "mm_usage_gate": "> Mức dùng kỹ năng: chưa đủ dữ liệu để vẽ biểu đồ.",
-        "mm_health_title": "Tỷ lệ lỗi script (%)",
-        "mm_rel_title": "Tỷ lệ thành công subagent (%)",
-        "mm_rel_gate": "> Độ tin cậy subagent: chưa đủ dữ liệu để vẽ biểu đồ.",
-        # artifact_heat
-        "heat_h": "## Tần suất sửa artifact ({days} ngày gần đây)\n",
-        "heat_total": "Tổng lần sửa: **{total}** trên **{n}** artifact.\n",
-        "heat_cols": ["Artifact", "Số lần sửa", "Lần sửa gần nhất"],
-        "heat_none": "_Chưa ghi nhận lần sửa artifact nào._",
-        "a_heat": "ARTIFACT HEAT — {total} lần sửa trên {n} artifact",
-        # harvester suggestions (P7)
-        "suggest_h": "## Gợi ý",
-        "suggest_none": "_Không có gợi ý — tiếp tục tốt!_",
     },
 }
 
@@ -457,7 +355,7 @@ _MD = {
 }
 
 
-def render_md(aggregates: list[dict], top=None, lang: str = "vi") -> str:
+def render_md(aggregates: list[dict], top=None, lang: str = "en") -> str:
     parts = []
     for a in aggregates:
         if a.get("error"):  # isolated-lens failure → visible line, never a silent drop
@@ -475,7 +373,7 @@ def _light(ok: bool) -> str:
     return "[OK]" if ok else "[!]"
 
 
-def render_ascii(aggregates: list[dict], lang: str = "vi") -> str:
+def render_ascii(aggregates: list[dict], lang: str = "en") -> str:
     def t(k): return _t(lang, k)
     lines = [t("banner")]
     for a in aggregates:
@@ -558,7 +456,7 @@ def _mermaid_bar(title: str, items: list[tuple]) -> str:
             f"    x-axis [{labels}]\n    bar [{vals}]\n```")
 
 
-def render_mermaid(aggregates: list[dict], lang: str = "vi") -> str:
+def render_mermaid(aggregates: list[dict], lang: str = "en") -> str:
     def t(k): return _t(lang, k)
     blocks = []
     for a in aggregates:
@@ -591,7 +489,7 @@ def render_mermaid(aggregates: list[dict], lang: str = "vi") -> str:
 
 
 # overview is just the ordered composition the CLI already passes in.
-def render_overview(aggregates: list[dict], fmt: str = "md", top=None, lang: str = "vi") -> str:
+def render_overview(aggregates: list[dict], fmt: str = "md", top=None, lang: str = "en") -> str:
     if fmt == "ascii":
         return render_ascii(aggregates, lang=lang)
     if fmt == "mermaid":

@@ -33,14 +33,11 @@ from status import build_status
 
 configure_utf8_console()
 
-# Bilingual column labels (the audit view's own small label set; i18n_labels owns the viz facets).
+# Column labels for the audit view (English-only; i18n_labels owns the viz facets).
 _AUDIT_LABELS = {
     "en": {"when": "When", "artifact": "Artifact", "action": "Action", "who": "Who approved",
            "drift": "What drifted", "dec": "DEC", "title": "Audit Trail", "empty": "No audit events yet.",
            "unreconciled": "unreconciled"},
-    "vi": {"when": "Thời điểm", "artifact": "Tài liệu", "action": "Hành động", "who": "Người duyệt",
-           "drift": "Thay đổi", "dec": "DEC", "title": "Nhật ký kiểm toán", "empty": "Chưa có sự kiện kiểm toán.",
-           "unreconciled": "chưa đối soát"},
 }
 
 _CL_HEADING_RE = re.compile(r"^##\s+(?P<date>\d{4}-\d{2}-\d{2})\s+—\s+(?P<type>.+?)\s*$", re.MULTILINE)
@@ -350,7 +347,7 @@ def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description="Assemble + render the governance audit trail.")
     ap.add_argument("--root", default=".")
     ap.add_argument("--format", default="ascii", choices=["ascii", "md", "json"])
-    ap.add_argument("--lang", default="en", choices=["en", "vi"])
+    ap.add_argument("--lang", default="en", choices=["en"])
     ap.add_argument("--today", default=None)
     args = ap.parse_args(argv)
     root = Path(args.root).resolve()

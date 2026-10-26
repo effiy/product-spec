@@ -79,7 +79,7 @@ ENUMS = {
     "moscow": {"must", "should", "could", "wont"},
     "horizon": {"now", "next", "later"},
     "size": {"S", "M", "L"},
-    "lang": {"en", "vi"},
+    "lang": {"en"},
     # Risk-entry sub-field enums. Distinct keys from the artifact-level `status`
     # above: a risk's `status` is open|mitigated|accepted, NOT the artifact's
     # draft|review|approved lifecycle. Validated per-entry in check_risks().

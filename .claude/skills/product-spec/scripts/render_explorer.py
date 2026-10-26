@@ -31,7 +31,7 @@ _DEPTH_BY_TYPE = {t: i for i, t in enumerate(_LAYER_ORDER)}
 _UI_KEYS = ("search", "status", "moscow", "persona", "layer", "horizon", "unassigned",
             "no_results", "tree", "tabs", "table", "ac_count",
             "goal", "prd", "epic", "story",
-            # horizon + MoSCoW chip values — localized for --lang vi facet display
+            # horizon + MoSCoW chip values — localized for facet display
             # (parity with render_board which already included these keys).
             "now", "next", "later", "must", "should", "could", "wont")
 

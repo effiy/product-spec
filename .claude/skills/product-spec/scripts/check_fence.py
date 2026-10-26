@@ -118,7 +118,7 @@ def main() -> int:
     ap.add_argument("--root", default=".")
     # --lang accepted for CLI-contract uniformity; this is a lang-agnostic JSON
     # feeder (English keys), so it is ignored.
-    ap.add_argument("--lang", default="en", choices=["en", "vi"])
+    ap.add_argument("--lang", default="en", choices=["en"])
     args = ap.parse_args()
 
     root = Path(args.root).resolve()

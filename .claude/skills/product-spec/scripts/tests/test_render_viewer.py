@@ -115,8 +115,8 @@ def test_goal_detail_md_synthesizes_metrics_and_skips_non_goal():
 
 
 def test_goal_detail_md_localizes_labels():
-    md = render_html.goal_detail_md({"type": "goal", "metrics": ["arr"]}, "vi")
-    assert "**Chỉ số:** arr" in md
+    md = render_html.goal_detail_md({"type": "goal", "metrics": ["arr"]}, "en")
+    assert "**Metrics:** arr" in md
 
 
 def test_board_goal_card_body_is_populated():

@@ -152,7 +152,7 @@ def test_llm_compact_body_present_story_includes_ac_and_escapes_arrow():
 
 def test_export_html_title_localized_vi():
     graph = build_graph(VALID)
-    html = render_export.render_html_doc("body", graph, "2026-01-01T00:00:00Z", lang="vi")
+    html = render_export.render_html_doc("body", graph, "2026-01-01T00:00:00Z", lang="en")
     assert "Xuất đặc tả" in html and "Spec Export" not in html
 
 
@@ -222,8 +222,8 @@ def test_llm_compact_bodyless_story_renders_ac_once():
 
 
 def test_export_body_h1_localized_and_newline_collapsed():
-    vi = render_export.render_markdown_doc([], "Acme", "all", "context", "all", "struct", "", lang="vi")
-    assert "# Xuất đặc tả — Acme" in vi               # body H1 localizes like the chrome title
+    en = render_export.render_markdown_doc([], "Acme", "all", "context", "all", "struct", "", lang="en")
+    assert "# Spec Export — Acme" in en               # body H1 localizes like the chrome title
     multiline = render_export.render_markdown_doc([], "Line1\n---\nLine2", "all", "context", "all", "struct", "")
     h1 = next(l for l in multiline.splitlines() if l.startswith("# "))
     assert "Line1" in h1 and "Line2" in h1            # name collapsed onto one heading line
@@ -231,10 +231,10 @@ def test_export_body_h1_localized_and_newline_collapsed():
 
 def test_horizon_facet_label_localized_and_shipped():
     assert label("horizon", "en") == "Horizon"
-    assert label("horizon", "vi") == "Khung thời gian"
+    assert label("horizon", "en") == "Horizon"
     g = _graph([_node("PRD-X", "prd", horizon="now")], [])
-    payload = render_board.build_payload(g, [_art("PRD-X", "prd")], group_by="status", lang="vi")
-    assert payload["labels"].get("horizon") == "Khung thời gian"  # ships so client header resolves it
+    payload = render_board.build_payload(g, [_art("PRD-X", "prd")], group_by="status", lang="en")
+    assert payload["labels"].get("horizon") == "Horizon"  # ships so client header resolves it
 
 
 def test_children_of_mirrors_parents_and_drives_downstream():

@@ -28,7 +28,7 @@ The views × formats matrix, the graph-JSON shape consumed by every renderer, an
 | `delta` | `--viz delta [--snapshot <name>]` | diff between two graph snapshots from `docs/product/visuals/.snapshots/`. |
 | `board` | `--viz board [--group-by status\|horizon\|moscow] [--layers …]` | kanban: columns = the group field, cards = goal/PRD/epic/story; client-side search + facet filters (status/moscow/horizon/persona/layer); click a card → its sanitized body. Default `--format html`. |
 | `explorer` | `--viz explorer [--layers …]` | one page, in-page toggle across **Tree** (collapsible nav) / **Flat-tabs** (per layer) / **Table-tree** (treegrid w/ metadata columns); shared search + facets; last mode persisted to `localStorage`. Default `--format html`. |
-| `audit` | `--viz audit [--format ascii\|md\|html] [--lang en\|vi]` | **governance trail**: chronological join of change-log · approval metadata · stale-approvals · decision register → *when · artifact · action · who-approved · what-drifted · DEC*. Reuses `status.py` loaders (DRY). Source disagreement (an approval/stale flag with no change-log/DEC corroboration) renders an explicit **`unreconciled`** row — never dropped. Formats: **`ascii` (default) · `md` · `html`**; the HTML form escapes EVERY dynamic field server-side via `render_html._escape` (no DOMPurify/marked, no href channel) — the XSS-watch guard is a `bug_class` test (`test_html_escapes_malicious_dynamic_fields`). No Mermaid form (a timeline table is not a graph → `--format mermaid` falls back to ascii). Assembler: `assemble_audit_trail.py`; HTML fragment: `render_html.audit`. |
+| `audit` | `--viz audit [--format ascii\|md\|html] [--lang en]` | **governance trail**: chronological join of change-log · approval metadata · stale-approvals · decision register → *when · artifact · action · who-approved · what-drifted · DEC*. Reuses `status.py` loaders (DRY). Source disagreement (an approval/stale flag with no change-log/DEC corroboration) renders an explicit **`unreconciled`** row — never dropped. Formats: **`ascii` (default) · `md` · `html`**; the HTML form escapes EVERY dynamic field server-side via `render_html._escape` (no DOMPurify/marked, no href channel) — the XSS-watch guard is a `bug_class` test (`test_html_escapes_malicious_dynamic_fields`). No Mermaid form (a timeline table is not a graph → `--format mermaid` falls back to ascii). Assembler: `assemble_audit_trail.py`; HTML fragment: `render_html.audit`. |
 
 ## View × Format Matrix
 
@@ -130,7 +130,7 @@ When the `docs/product/` directory is absent, `spec_graph.py` emits a minimal st
 --viz board|explorer --layers goal,prd,epic,story   # filter cards by artifact type
 ```
 
-`--lang en|vi` localizes labels in the rendered output (e.g., "now/next/later" → "hiện tại/tiếp theo/sau này"). IDs, edges, and frontmatter values stay English.
+`--lang en` localizes labels in the rendered output. IDs, edges, and frontmatter values stay English.
 
 `--filter-wont` hides deferred items (frontmatter `moscow: wont` or `scope: out`) from `tree`/`roadmap`/`time`/`persona`/`board`/`explorer` (ascii, mermaid, and html alike). **Default keeps them visible** — a trailing `*` marker on the graph views, a card on board/explorer — so nothing is silently dropped; `--filter-wont` is the opt-in to declutter.
 

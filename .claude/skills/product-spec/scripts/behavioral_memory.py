@@ -8,7 +8,7 @@ and *behaves*, distinct from the structural facts (`decisions.md`,
 
   - **3D PO-style** (`docs/product/.memory/po-style.yaml`, committed): the
     product owner's own voice — register, domain vocabulary, recurring asks,
-    and do/don't phrasing — kept **lang-keyed** (`en` / `vi`).
+    and do/don't phrasing — kept **lang-keyed** (`en`).
   - **3E LLM-self-correction** (`docs/product/.memory/self-corrections.json`,
     committed): a recurring slip + the operating principle it violated + a
     frequency/last-seen stamp + a corrective reminder.

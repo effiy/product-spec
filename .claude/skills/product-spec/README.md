@@ -41,7 +41,7 @@ With no flag, the skill detects the state of `docs/product/` and shows a menu (i
 3. **Structure is data; your prose is yours.** The machine reads frontmatter (IDs, `status`, `scope`, `metrics`) as source-of-truth and **never overwrites your narrative** — on `--update` it flags affected nodes and asks.
 4. **Nothing is approved or reversed silently.** `approved` needs an explicit owner + date; a contradiction with an approved doc always stops for **Keep / Change / Hybrid**.
 5. **Preferences are asked once.** Language, detail level, and the **engagement profile** (`interview_rigor` + `action_prompting`) are seeded early and never re-asked — change them with `--lang` or `preferences.py --set`.
-6. **Fully offline; bilingual EN/VI.** Everything runs locally after install; IDs and frontmatter keys stay English, prose localizes.
+6. **Fully offline; English-only.** Everything runs locally after install; IDs and frontmatter keys stay English.
 
 ### Learning path (don't learn every flag at once)
 

@@ -3,8 +3,6 @@
 A guide for **product owners**. Each use-case is a sample dialogue over the sample spec
 `product-spec/examples/acme-shop`. The natural-language way (just say it) is preferred; the flag form is the equivalent.
 
-> Vietnamese version: [`GUIDE-VI.md`](./GUIDE-VI.md).
-
 ---
 
 ## 1. What it is, and how it differs from `--validate`
@@ -42,8 +40,8 @@ it). The spec must exist first.
 > (`--no-mercy`) lifts the redline, so personal barbs are allowed, and it is the **default baseline** voice. Level 6 (`--roast`) requires a direct roast of the
 > author ("too lazy to add a number", "scribbled it and went to bed"). **Levels 7 to 9 escalate further:** level 7 is
 > cold contempt + a competence attack with zero profanity; level 8 adds a character attack with profanity on
-> (work-targeted); level 9 is sustained work-targeted profanity with no internal restraint. (Vietnamese rides the
-> `ông/tôi` → `mày/tao` pronoun ladder; English has no ladder, so 7-9 escalate by profanity-presence.) Levels 6-9 are
+> (work-targeted); level 9 is sustained work-targeted profanity with no internal restraint. Levels 7-9 escalate
+> by profanity-presence. Levels 6-9 are
 > dangerous and have no place in any professional context. **Level 5 is the default baseline and is ungated** (no
 > warning). Levels 6-8 warn + confirm when ad-hoc (a standing preference just prints a one-line reminder); **level 9
 > re-confirms on EVERY run regardless of source and downgrades to 8 on decline.**
@@ -51,9 +49,8 @@ it). The spec must exist first.
 > 🚧 **Universal-harm floor (holds at EVERY level, even 9, even with consent).** The TARGET of a line decides, not its
 > strength. The tool will swear at and tear into the WORK, the effort, the competence on this spec, profanity aimed at
 > an empty AC included. It will NEVER threaten real violence, never use protected-characteristic slurs (gender, region,
-> ethnicity, religion, age, disability, sexuality, appearance), never aim profanity at your family (`đụ má`-style),
-> never produce self-harm or sexual content. A defanged minced oath like `đậu xanh` is allowed (it dodges the literal
-> vulgarity); only the literal family-target form is out. Every line still keeps evidence (`ID:line`) and a fix.
+> ethnicity, religion, age, disability, sexuality, appearance), never aim profanity at your family,
+> never produce self-harm or sexual content. Every line still keeps evidence (`ID:line`) and a fix.
 
 ---
 
@@ -163,20 +160,17 @@ Setting one never affects the other. "Verbose specs + concise critiques" is vali
 > **You:** "Full profanity, no holds barred." → `--level 9` (sustained work-targeted profanity, no restraint). Level 9
 > **re-confirms on every run** and downgrades to 8 if you decline. The universal-harm floor above holds at 9 regardless.
 
-### C2. Register config for levels 7-9 (gender, dialect, profanity)
+### C2. Register config for level 9 (profanity)
 
-The three harshest levels read knobs from `preferences.yaml`. These pick the ADDRESS form, not extra permission, the
+Level 9 reads one knob from `preferences.yaml`. This is a surface-form choice, not extra permission — the
 safety floor is identical whatever you set:
 
-| Pref | Values | Default | Applies at | Surface form |
-|------|--------|---------|-----------|--------------|
-| `critique_address_gender` | `m` / `f` | `m` | level 7 | `ông/tôi` (m) ↔ `bà/tôi` (f), Vietnamese only |
-| `critique_dialect` | `bac` / `trung` / `nam` | `bac` | level ≥ 8 | `mày/tao` ↔ `mi/tau` ↔ southern, Vietnamese only |
-| `critique_profanity` | `off` / `abbrev` / `strong` | `strong` | level 9 | none ↔ `đm/vl` ↔ `đm/vl/vãi`, work-targeted |
+| Pref | Values | Default | Applies at |
+|------|--------|---------|------------|
+| `critique_profanity` | `off` / `on` | `on` | level 9 |
 
-In English the gender/dialect knobs are no-ops (no pronoun ladder); `critique_profanity` still sets profanity strength
-and is what separates English level 7 (off) from 8 (on). Default is `strong` because level 9 re-confirms every run
-anyway, so when it fires it runs at full power.
+`critique_profanity` sets profanity strength and is what separates level 7 (off) from 8 (on). Default is
+`on` because level 9 re-confirms every run anyway, so when it fires it runs at full power.
 
 ### C3. Feel the voice levels (same finding)
 

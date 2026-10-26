@@ -14,17 +14,17 @@ Structure:
 
 The affected-node table rows are produced by the LLM annotation pass; this
 template fixes only the heading + column order so every impact report is
-shaped the same. Bilingual headings localize per `lang`; IDs/dims/enums stay
-English (CLAUDE.md → Bilingual Conventions).
+shaped the same. Headings localize per `lang`; IDs/dims/enums stay
+English (CLAUDE.md conventions).
 -->
 
-# Impact Report — {{date}} | Báo cáo tác động — {{date}}
+# Impact Report — {{date}}
 
-- **Trigger | Kích hoạt:** {{trigger}}            <!-- --update | --validate -->
-- **Changed | Thay đổi:** {{changed_set}}         <!-- the change-set: 1 id (--update) or the snapshot-delta ids (--validate) -->
-- **Dimensions touched | Chiều bị ảnh hưởng:** {{dims}}   <!-- union of dim_touched across affected nodes, e.g. [risk, time] -->
+- **Trigger:** {{trigger}}            <!-- --update | --validate -->
+- **Changed:** {{changed_set}}         <!-- the change-set: 1 id (--update) or the snapshot-delta ids (--validate) -->
+- **Dimensions touched:** {{dims}}   <!-- union of dim_touched across affected nodes, e.g. [risk, time] -->
 
-## Affected downstream | Ảnh hưởng phía dưới
+## Affected downstream
 
 <!--
 One row per affected node returned by downstream(). dim_touched ∈
@@ -38,7 +38,7 @@ sentence on HOW the change touches this node; action = a concrete suggestion
 {{rows}}
 
 <!-- OPTIONAL: contradictions -->
-## Contradictions with approved artifacts | Mâu thuẫn với tài liệu đã duyệt
+## Contradictions with approved artifacts
 
 <!--
 Listed ONLY when an affected node is `status: approved` AND the change

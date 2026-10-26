@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """check_report_language.py — ADVISORY language-purity scan for critique reports.
 
-A critique report declares its language in frontmatter (`lang: vi` | `lang: en`). The
-consolidator must render the WHOLE report in that language — every heading, every
+A critique report declares its language in frontmatter (`lang: en`). The
+consolidator must render the WHOLE report in English — every heading, every
 why/fix label, every register word. A regression in the consolidate contract once let
 Vietnamese structural labels ("Toang ở đâu", "## Theo lăng kính") and Vietnamese
 register tokens ("đm", "mày/tao") leak into `lang: en` reports. This script catches
@@ -20,7 +20,7 @@ human confirms whether it is a quote (fine) or a render leak (fix the consolidat
 Usage:
   check_report_language.py --file <report.md>
   check_report_language.py --dir  <critique-dir>   # scans *.md
-Only `lang: en` reports are scanned (a `vi` report is expected to be Vietnamese).
+Only `lang: en` reports are scanned (all reports are expected to be English).
 """
 
 import argparse

@@ -12,10 +12,10 @@ matches a skill below, load that skill's `SKILL.md` before acting; don't operate
 | Critiquing an existing spec (4 lenses product/tech/market/craft, voice levels)  | `.claude/skills/product-spec-critique/SKILL.md` |
 | Packing/releasing the bundle, CHANGELOG lifecycle, tag-triggered CI             | `.claude/skills/release/SKILL.md` |
 | Usage/health read: which skills get used, script/subagent health, validate-pass | `.claude/skills/telemetry/SKILL.md` |
-| proxy — plain-Vietnamese analytics over local telemetry (read-only)             |      |
+| proxy — plain-English analytics over local telemetry (read-only)             |      |
 
 Speak product language (personas/problems/value/scope/acceptance) for the two product skills;
-code/CLI vocabulary for `release`; plain-Vietnamese usage/health narration for `telemetry`.
+code/CLI vocabulary for `release`; plain-English usage/health narration for `telemetry`.
 
 ---
 

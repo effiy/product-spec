@@ -168,10 +168,10 @@ DATING_ROOT = SKILL_DIR.parents[2] / "e2e" / "dating-app"
 DATING_PROD = DATING_ROOT / "docs" / "product"
 VOICE_LADDER_DIR = DATING_PROD / "critique"
 VOICE_LADDER_FILES = [
-    f"voice-ladder9-{lang}-lvl{n}.md" for lang in ("vi", "en") for n in range(1, 10)
+    f"voice-ladder9-{lang}-lvl{n}.md" for lang in ("en",) for n in range(1, 10)
 ]
 # The lens-findings-cache key each lang's reports carry (the consolidate_only store key).
-LENS_FINDINGS_HASH = {"vi": "196b1f155bf4b30f", "en": "22e9b7fd857a9d8e"}
+LENS_FINDINGS_HASH = {"en": "22e9b7fd857a9d8e"}
 
 
 def _dating_resolver() -> dict:

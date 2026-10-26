@@ -21,7 +21,7 @@ already handed out this session so siblings under the same parent don't collide
 CLI:
     generate_templates.py --root <project-dir> --type <type> [--slug <slug>] \\
         [--parent <id>] [--values <json-file-or-string>] \\
-        [--keep-optional <name,name>] [--lang en|vi] [--write]
+        [--keep-optional <name,name>] [--lang en] [--write]
 
 Examples:
     # Allocate a new story under PRD-AUTH-E1 from values.json
@@ -256,7 +256,7 @@ def main() -> int:
     ap.add_argument("--parent", help="parent ID for epic/story")
     ap.add_argument("--values", help="JSON file path OR JSON string of token values")
     ap.add_argument("--keep-optional", default="", help="comma-separated names of optional sections to keep")
-    ap.add_argument("--lang", default="en", choices=["en", "vi"])
+    ap.add_argument("--lang", default="en", choices=["en"])
     ap.add_argument("--write", action="store_true", help="write the file (default: print only)")
     ap.add_argument(
         "--force", action="store_true",

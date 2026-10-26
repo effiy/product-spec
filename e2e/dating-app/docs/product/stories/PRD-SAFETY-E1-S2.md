@@ -3,7 +3,7 @@ id: PRD-SAFETY-E1-S2
 type: story
 epic: PRD-SAFETY-E1
 status: draft
-lang: vi
+lang: en
 owner: Trần Bảo Hiếu
 version: 0.1.0
 created: 2026-06-02

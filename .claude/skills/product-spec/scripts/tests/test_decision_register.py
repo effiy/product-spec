@@ -279,9 +279,9 @@ def test_preferences_partial_file_fills_gaps(tmp_path):
     # A file that sets only `lang` leaves the other keys on their defaults.
     mem = tmp_path / "docs" / "product" / ".memory"
     mem.mkdir(parents=True)
-    (mem / "preferences.yaml").write_text("lang: vi\n", encoding="utf-8")
+    (mem / "preferences.yaml").write_text("lang: en\n", encoding="utf-8")
     prefs = preferences.load(tmp_path)
-    assert prefs["lang"] == "vi"
+    assert prefs["lang"] == "en"
     assert prefs["detail_level"] == preferences.DEFAULTS["detail_level"]
 
 
@@ -305,10 +305,10 @@ def test_preferences_malformed_yaml_returns_defaults(tmp_path):
 
 
 def test_preferences_save_roundtrip_under_fence(tmp_path):
-    out = preferences.save(tmp_path, {"lang": "vi", "detail_level": "concise"})
+    out = preferences.save(tmp_path, {"lang": "en", "detail_level": "concise"})
     assert out.is_relative_to(tmp_path / "docs" / "product" / ".memory")
     reloaded = preferences.load(tmp_path)
-    assert reloaded["lang"] == "vi"
+    assert reloaded["lang"] == "en"
     assert reloaded["detail_level"] == "concise"
 
 

@@ -55,7 +55,7 @@ def test_doctor_flags_missing_lens_cache_and_report(tmp_path):
     """--doctor surfaces the failure mode: a state record whose report AND lens-cache
     do not exist on disk."""
     proj = make_proj(tmp_path)
-    critique_cache.save_state(proj, "all", provenance_hash="abc", level=5, lang="vi",
+    critique_cache.save_state(proj, "all", provenance_hash="abc", level=5, lang="en",
                               report="docs/product/critique/GONE-all.md",
                               lens_findings_hash="deadbeefdeadbeef")
     rep = critique_persist.doctor(proj)

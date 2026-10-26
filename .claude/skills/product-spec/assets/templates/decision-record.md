@@ -17,8 +17,8 @@ DRY GUARD — what a decision record holds, and what it must NEVER hold:
            not duplicate them. Copying a fact here creates a second source of
            truth that drifts. Reference `affects:` by ID and stop.
 
-Bilingual: the prose (title + rationale) localizes per the session `lang`; the
-frontmatter keys and the `DEC-<n>` id stay English (CLAUDE.md → Bilingual
+The prose (title + rationale) localizes per the session `lang`; the
+frontmatter keys and the `DEC-<n>` id stay English (CLAUDE.md →
 Conventions).
 -->
 

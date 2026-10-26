@@ -1,12 +1,12 @@
 # Workflow: `--lang` (interview / output language)
 
-Set the interview + output language: `en` (default) · `vi`. The switch is **content-localized,
+Set the interview + output language to English. The switch is **content-localized,
 identity-preserved**:
 
 ## What localizes
 
-- Interview questions + the LLM's conversational phrasing (VI is native-reviewed, not machine-translated).
-- Body-view facets/labels + in-view value labels (e.g. "now/next/later" → "hiện tại/tiếp theo/sau này").
+- Interview questions + the LLM's conversational phrasing.
+- Body-view facets/labels + in-view value labels.
 - `--export` headings.
 
 ## What stays English (never localized)
@@ -21,5 +21,4 @@ identity-preserved**:
 - `--lang` changes presentation only — it never changes which artifact/flag is selected, nor any
   stored structure.
 
-Routing: an ambiguous "talk to me in Vietnamese / do this in VI from now on" → `--lang vi`.
-Distinct from `--voice` (records the PO's wording *style*, lang-keyed, not the language itself).
+Distinct from `--voice` (records the PO's wording *style*, not the language itself).

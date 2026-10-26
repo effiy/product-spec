@@ -9,8 +9,6 @@ cases:
   - test_acme_shop_validate — the worked example examples/acme-shop
         has been MIGRATED to v2 (carries real risk/time/competition data) AND
         still validates with 0 structural errors.
-  - test_i18n_new_labels — every new view/enum label localizes under
-        --lang vi (VI is native-reviewed for natural wording).
 
 Back-compat (eval `backcompat-v1-spec`) is graded by the eval runner, not
 here; the structural half — a v1 spec (no v2 fields) building + validating clean
@@ -35,7 +33,6 @@ import yaml  # noqa: E402  (ships with the skill venv, per CLAUDE.md)
 from spec_graph import build_graph  # noqa: E402
 from check_consistency import check as check_cons, _enrich_with_ac  # noqa: E402
 from check_traceability import check as check_trace  # noqa: E402
-import i18n_labels  # noqa: E402
 
 SKILL_ROOT = SCRIPTS_DIR.parent                       # .../skills/product-spec
 REPO_ROOT = SKILL_ROOT.parent.parent.parent           # repo root (cleanmatic-skills)
@@ -146,39 +143,4 @@ def test_acme_shop_validate():
     assert errors == [], (
         "migrated acme-shop must validate with 0 structural errors; got:\n"
         + "\n".join(f"{f.get('check')} [{f.get('artifact_id')}]: {f.get('detail')}" for f in errors)
-    )
-
-
-# ---------------------------------------------------------------------------
-# G-H1 — bilingual EN/VI labels for all new enums/views.
-# Every new view name and dimension enum must localize under --lang vi.
-# ---------------------------------------------------------------------------
-
-
-def test_i18n_new_labels():
-    # New view names introduced by the multi-dim work.
-    new_views = ("time", "competition", "dashboard", "risk")
-    # New dimension enum labels (competition parity + threat tiers).
-    new_enums = (
-        "parity_ahead", "parity_parity", "parity_behind", "parity_none",
-        "threat_low", "threat_med", "threat_high",
-    )
-
-    # Every key must exist in BOTH locale tables (no silent EN fallback for a
-    # new label under --lang vi).
-    en_keys = set(i18n_labels.LABELS["en"])
-    vi_keys = set(i18n_labels.LABELS["vi"])
-    for key in new_views + new_enums:
-        assert key in en_keys, f"i18n label key {key!r} missing from the EN table"
-        assert key in vi_keys, f"i18n label key {key!r} missing from the VI table"
-
-    # The VI rendering must differ from EN (i.e. actually be translated, not an
-    # untranslated passthrough) for the new VIEW names.
-    untranslated = [
-        v for v in new_views
-        if i18n_labels.label(v, "vi") == i18n_labels.label(v, "en")
-    ]
-    assert not untranslated, (
-        "these new view labels are not localized under --lang vi (VI == EN "
-        f"passthrough): {untranslated}"
     )

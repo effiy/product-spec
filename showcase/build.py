@@ -34,58 +34,52 @@ ASSETS = HERE / "assets"
 ARTDIR = HERE / "artifacts"
 
 # Homepage (the showcase / overview) — not a guide; lives at index.html.
-#   key, label(en), label(vi), partial, <title>, accent css-var
-HOME = ("hub", "Overview", "Tổng quan", "hub.html",
+#   key, label, partial, <title>, accent css-var
+HOME = ("hub", "Overview", "hub.html",
         "Product Spec Harness — Interactive Showcase", "var(--spec)")
 
 # The guides landing — lives at guides/index.html.
-GUIDES_INDEX = ("guides", "All guides", "Mục lục", "guides-index.html",
+GUIDES_INDEX = ("guides", "All guides", "guides-index.html",
                 "Guides — Product Spec Harness", "var(--spec)")
 
 # Guides — each gets the docs sidebar. Same fields as HOME.
 # Order follows the sidebar reading order (also drives prev/next via SEQ).
 GUIDES = [
-    ("quickstart",        "Quick start",      "Bắt đầu",      "quickstart.html",        "Quick start — Product Spec Harness",        "var(--ok)"),
-    ("install",           "Install",          "Cài đặt",      "install.html",           "Install — Product Spec Harness",            "var(--ok)"),
-    ("journey",           "The loop",         "Vòng đời",     "journey.html",           "The loop — Product Spec Harness",           "var(--gold)"),
-    ("product-spec",      "product-spec",     "product-spec", "product-spec.html",      "product-spec — Product Spec Harness",       "var(--spec)"),
-    ("critique",          "critique",         "critique",     "critique.html",          "critique — Product Spec Harness",           "var(--crit)"),
-    ("release",           "release",          "release",      "release.html",           "release — Product Spec Harness",            "var(--rel)"),
-    ("telemetry",         "telemetry",        "telemetry",    "telemetry.html",         "telemetry — Product Spec Harness",          "var(--tel)"),
-    ("spec-hierarchy",    "Spec hierarchy",   "Cây spec",     "spec-hierarchy.html",    "Spec hierarchy — Product Spec Harness",     "var(--spec)"),
-    ("validation",        "Validation",       "Kiểm tra",     "validation.html",        "Validation — Product Spec Harness",         "var(--spec)"),
-    ("decision-register", "Decision register","Sổ quyết định","decision-register.html", "Decision register — Product Spec Harness",  "var(--gold)"),
-    ("voice-levels",      "Voice levels",     "Mức giọng",    "voice-levels.html",      "Voice levels — Product Spec Harness",       "var(--crit)"),
-    ("determinism",       "Determinism",      "Tất định",     "determinism.html",       "Determinism — Product Spec Harness",        "var(--rel)"),
-    ("cheatsheet",        "Cheatsheet",       "Tra cứu nhanh","cheatsheet.html",        "Cheatsheet — Product Spec Harness",         "var(--spec)"),
-    ("glossary",          "Glossary",         "Thuật ngữ",    "glossary.html",          "Glossary — Product Spec Harness",           "var(--rel)"),
-    ("finder",            "Skill finder",     "Chọn skill",   "finder.html",            "Skill finder — Product Spec Harness",       "var(--gold)"),
-    ("the-rig",           "The rig",          "Bộ máy",       "the-rig.html",           "The rig — Product Spec Harness",            "var(--tel)"),
-    ("vision",            "Vision",           "Tầm nhìn",     "vision.html",            "Vision — Product Spec Harness",             "var(--tel)"),
+    ("quickstart",        "Quick start",      "quickstart.html",        "Quick start — Product Spec Harness",        "var(--ok)"),
+    ("install",           "Install",          "install.html",           "Install — Product Spec Harness",            "var(--ok)"),
+    ("journey",           "The loop",         "journey.html",           "The loop — Product Spec Harness",           "var(--gold)"),
+    ("product-spec",      "product-spec",     "product-spec.html",      "product-spec — Product Spec Harness",       "var(--spec)"),
+    ("critique",          "critique",         "critique.html",          "critique — Product Spec Harness",           "var(--crit)"),
+    ("release",           "release",          "release.html",           "release — Product Spec Harness",            "var(--rel)"),
+    ("telemetry",         "telemetry",        "telemetry.html",         "telemetry — Product Spec Harness",          "var(--tel)"),
+    ("spec-hierarchy",    "Spec hierarchy",   "spec-hierarchy.html",    "Spec hierarchy — Product Spec Harness",     "var(--spec)"),
+    ("validation",        "Validation",       "validation.html",        "Validation — Product Spec Harness",         "var(--spec)"),
+    ("decision-register", "Decision register","decision-register.html", "Decision register — Product Spec Harness",  "var(--gold)"),
+    ("voice-levels",      "Voice levels",     "voice-levels.html",      "Voice levels — Product Spec Harness",       "var(--crit)"),
+    ("determinism",       "Determinism",      "determinism.html",       "Determinism — Product Spec Harness",        "var(--rel)"),
+    ("cheatsheet",        "Cheatsheet",       "cheatsheet.html",        "Cheatsheet — Product Spec Harness",         "var(--spec)"),
+    ("glossary",          "Glossary",         "glossary.html",          "Glossary — Product Spec Harness",           "var(--rel)"),
+    ("finder",            "Skill finder",     "finder.html",            "Skill finder — Product Spec Harness",       "var(--gold)"),
+    ("the-rig",           "The rig",          "the-rig.html",           "The rig — Product Spec Harness",            "var(--tel)"),
+    ("vision",            "Vision",           "vision.html",            "Vision — Product Spec Harness",             "var(--tel)"),
 ]
 
-# Sidebar grouping (5 categories). Each: key, EN label, VI label, EN intro, VI
-# intro (shown on the guides landing as a per-category overview), guide keys.
+# Sidebar grouping (5 categories). Each: key, label, intro, guide keys.
 CATEGORIES = [
-    ("start",     "Start here",          "Bắt đầu",
+    ("start",     "Start here",
      "Install in one command, then watch one product idea become a verified spec.",
-     "Cài trong một lệnh, rồi xem một ý tưởng sản phẩm thành spec có kiểm chứng.",
      ["quickstart", "install", "journey"]),
-    ("skills",    "The four skills",     "Bốn skill",
+    ("skills",    "The four skills",
      "Define & validate, critique, release the bundle, and observe usage — one skill each.",
-     "Định nghĩa & kiểm tra, phản biện, phát hành bộ, và quan sát mức dùng — mỗi việc một skill.",
      ["product-spec", "critique", "release", "telemetry"]),
-    ("concepts",  "Concepts",            "Khái niệm",
+    ("concepts",  "Concepts",
      "The model underneath: the spec tree, the gates, the registers, the voice.",
-     "Mô hình bên dưới: cây spec, các gate, các sổ, và giọng phản biện.",
      ["spec-hierarchy", "validation", "decision-register", "voice-levels", "determinism"]),
-    ("reference", "Quick reference",     "Tra cứu nhanh",
+    ("reference", "Quick reference",
      "Look things up fast: every flag, every term — and pick the right skill.",
-     "Tra nhanh: mọi cờ, mọi thuật ngữ — và chọn đúng skill.",
      ["cheatsheet", "glossary", "finder"]),
-    ("about",     "About",               "Giới thiệu",
+    ("about",     "About",
      "Inside the machinery, and where the harness is headed.",
-     "Bên trong bộ máy, và hướng đi của harness.",
      ["the-rig", "vision"]),
 ]
 
@@ -180,13 +174,13 @@ def _guide_meta(k):
 
 
 def _nav_label(k):
-    """(en, vi) label for any nav target key."""
+    """Label for any nav target key."""
     if k == "hub":
-        return (HOME[1], HOME[2])
+        return HOME[1]
     if k == "guides":
-        return (GUIDES_INDEX[1], GUIDES_INDEX[2])
+        return GUIDES_INDEX[1]
     g = _guide_meta(k)
-    return (g[1], g[2])
+    return g[1]
 
 
 def _href(target, mode, here):
@@ -217,7 +211,7 @@ def _href(target, mode, here):
 
 
 def header_slim(mode, here):
-    """Slim top bar: hamburger (mobile, docs only) · brand · Guides · EN/VI."""
+    """Slim top bar: hamburger (mobile, docs only) · brand · Guides."""
     home = _href("home", mode, here)
     guides = _href("guides", mode, here)
     return (
@@ -232,11 +226,7 @@ def header_slim(mode, here):
         '<svg viewBox="0 0 24 24" fill="none"><path d="M5 4h9a3 3 0 0 1 3 3v14H7a2 2 0 0 1-2-2V4Z" '
         'stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>'
         '<path d="M9 9h5M9 13h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>'
-        '<span class="en">Guides</span><span class="vi">Hướng dẫn</span></a>\n'
-        '      <div class="langtoggle" role="group" aria-label="language">\n'
-        '        <button id="btn-en" class="active" onclick="setLang(\'en\')">EN</button>\n'
-        '        <button id="btn-vi" onclick="setLang(\'vi\')">VI</button>\n'
-        '      </div>\n    </div>\n  </div>\n</header>'
+        'Guides</a>\n    </div>\n  </div>\n</header>'
     )
 
 
@@ -245,16 +235,14 @@ def sidebar(active, mode, here):
     out = ['<aside class="docs-side" aria-label="Guides navigation">']
     gi = _href("guides", mode, here)
     gcls = " active" if active == "guides" else ""
-    out.append(f'  <a href="{gi}" class="side-link side-top{gcls}" data-nav="guides">'
-               '<span class="en">All guides</span><span class="vi">Mục lục</span></a>')
-    for _ck, cen, cvi, _ien, _ivi, keys in CATEGORIES:
-        out.append(f'  <div class="side-cat"><span class="en">{cen}</span><span class="vi">{cvi}</span></div>')
+    out.append(f'  <a href="{gi}" class="side-link side-top{gcls}" data-nav="guides">All guides</a>')
+    for _ck, clabel, _intro, keys in CATEGORIES:
+        out.append(f'  <div class="side-cat">{clabel}</div>')
         for k in keys:
             g = _guide_meta(k)
             href = _href(k, mode, here)
             cls = " active" if active == k else ""
-            out.append(f'  <a href="{href}" class="side-link{cls}" data-nav="{k}">'
-                       f'<span class="en">{g[1]}</span><span class="vi">{g[2]}</span></a>')
+            out.append(f'  <a href="{href}" class="side-link{cls}" data-nav="{k}">{g[1]}</a>')
     out.append("</aside>")
     return "\n".join(out)
 
@@ -263,35 +251,33 @@ def crumb(key, mode, here):
     """Breadcrumb: Home › Guides › <current> (Guides hop omitted on the landing)."""
     home = _href("home", mode, here)
     gi = _href("guides", mode, here)
-    en, vi = _nav_label(key)
-    cur = f'<span class="cur"><span class="en">{en}</span><span class="vi">{vi}</span></span>'
+    label = _nav_label(key)
+    cur = f'<span class="cur">{label}</span>'
     mid = ""
     if key != "guides":
-        mid = (f'<a href="{gi}"><span class="en">Guides</span><span class="vi">Hướng dẫn</span></a> '
+        mid = (f'<a href="{gi}">Guides</a> '
                '<span class="sep">›</span> ')
-    return (f'<div class="crumb"><a href="{home}"><span class="en">Home</span>'
-            f'<span class="vi">Trang chủ</span></a> <span class="sep">›</span> {mid}{cur}</div>')
+    return (f'<div class="crumb"><a href="{home}">Home</a>'
+            f' <span class="sep">›</span> {mid}{cur}</div>')
 
 
 def skill_nav(key, mode, here):
     """Generated prev · next footer nav. Order lives in SEQ (DRY)."""
     idx = SEQ.index(key)
-    ac = "var(--spec)" if key in ("hub", "guides") else _guide_meta(key)[5]
+    ac = "var(--spec)" if key in ("hub", "guides") else _guide_meta(key)[4]
     parts = [f'<div class="skill-nav" style="--ac:{ac}">']
     if idx > 0:
         pk = SEQ[idx - 1]
-        pen, pvi = _nav_label(pk)
-        parts.append(f'<a class="pv" href="{_href(pk, mode, here)}"><span class="k">← '
-                     '<span class="en">Prev</span><span class="vi">Trước</span></span>'
-                     f'<span class="v"><span class="en">{pen}</span><span class="vi">{pvi}</span></span></a>')
+        plabel = _nav_label(pk)
+        parts.append(f'<a class="pv" href="{_href(pk, mode, here)}"><span class="k">← Prev</span>'
+                     f'<span class="v">{plabel}</span></a>')
     else:
         parts.append('<span class="pv" style="flex:1"></span>')
     if idx + 1 < len(SEQ):
         nk = SEQ[idx + 1]
-        nen, nvi = _nav_label(nk)
-        parts.append(f'<a class="nx" href="{_href(nk, mode, here)}"><span class="k">'
-                     '<span class="en">Next</span><span class="vi">Sau</span> →</span>'
-                     f'<span class="v"><span class="en">{nen}</span><span class="vi">{nvi}</span></span></a>')
+        nlabel = _nav_label(nk)
+        parts.append(f'<a class="nx" href="{_href(nk, mode, here)}"><span class="k">Next →</span>'
+                     f'<span class="v">{nlabel}</span></a>')
     else:
         parts.append('<span class="nx" style="flex:1"></span>')
     parts.append("</div>")
@@ -300,58 +286,40 @@ def skill_nav(key, mode, here):
 
 # One-line description per guide, shown on the landing-page overview cards.
 GUIDE_DESC = {
-    "quickstart":        ("Install, then turn one idea into a validated spec tree.",
-                          "Cài đặt, rồi biến một ý tưởng thành cây spec đã kiểm tra."),
-    "install":           ("One command, shared venv, Python 3.11+ — POSIX or Windows.",
-                          "Một lệnh, venv dùng chung, Python 3.11+ — POSIX hoặc Windows."),
-    "journey":           ("Watch one product idea flow from vision to observed usage.",
-                          "Xem một ý tưởng đi từ tầm nhìn đến mức dùng quan sát được."),
-    "product-spec":      ("Define the Vision→BRD→PRD→Epic→Story tree; validate and approve.",
-                          "Dựng cây Vision→BRD→PRD→Epic→Story; kiểm tra và duyệt."),
-    "critique":          ("Four lenses, nine voice levels — sharp feedback, never silent edits.",
-                          "Bốn lăng kính, chín mức giọng — góp ý sắc, không sửa lén."),
-    "release":           ("Pack the bundle deterministically; the safety filter drops secrets.",
-                          "Đóng gói bộ một cách tất định; bộ lọc an toàn loại bí mật."),
-    "telemetry":         ("Read who used what, in plain Vietnamese, four output formats.",
-                          "Đọc ai dùng gì, bằng tiếng Việt rõ, bốn định dạng."),
-    "spec-hierarchy":    ("The five levels and their IDs — the spine of every spec.",
-                          "Năm cấp và mã ID — xương sống của mọi spec."),
-    "validation":        ("Scripts judge structure; the LLM judges prose; the PO approves.",
-                          "Script soi cấu trúc; LLM soi văn; PO mới được duyệt."),
-    "decision-register": ("DEC-n: how a contradiction becomes a recorded, settled ruling.",
-                          "DEC-n: mâu thuẫn thành một phán quyết được ghi và chốt."),
-    "voice-levels":      ("Levels 1–9 and the universal-harm floor under all of them.",
-                          "Mức 1–9 và sàn cấm-gây-hại nằm dưới tất cả."),
-    "determinism":       ("Same inputs, same bytes — why scripts do the structural work.",
-                          "Cùng đầu vào, cùng byte — vì sao script làm phần cấu trúc."),
-    "cheatsheet":        ("Every flag of every skill, in tables you can scan.",
-                          "Mọi cờ của mọi skill, trong bảng tra nhanh."),
-    "glossary":          ("The canonical terms — with the wording the harness forbids.",
-                          "Thuật ngữ chuẩn — kèm cách nói mà harness cấm."),
-    "finder":            ("Answer a few questions, get the exact skill to run.",
-                          "Trả lời vài câu, ra đúng skill cần chạy."),
-    "the-rig":           ("Skills, scripts, schemas, hooks, and the gates that say no.",
-                          "Skill, script, schema, hook, và các gate biết nói không."),
-    "vision":            ("Where the harness is going and the principles that steer it.",
-                          "Harness đi về đâu và nguyên tắc dẫn lối."),
+    "quickstart":        "Install, then turn one idea into a validated spec tree.",
+    "install":           "One command, shared venv, Python 3.11+ — POSIX or Windows.",
+    "journey":           "Watch one product idea flow from vision to observed usage.",
+    "product-spec":      "Define the Vision→BRD→PRD→Epic→Story tree; validate and approve.",
+    "critique":          "Four lenses, nine voice levels — sharp feedback, never silent edits.",
+    "release":           "Pack the bundle deterministically; the safety filter drops secrets.",
+    "telemetry":         "Read who used what, in plain Vietnamese, four output formats.",
+    "spec-hierarchy":    "The five levels and their IDs — the spine of every spec.",
+    "validation":        "Scripts judge structure; the LLM judges prose; the PO approves.",
+    "decision-register": "DEC-n: how a contradiction becomes a recorded, settled ruling.",
+    "voice-levels":      "Levels 1–9 and the universal-harm floor under all of them.",
+    "determinism":       "Same inputs, same bytes — why scripts do the structural work.",
+    "cheatsheet":        "Every flag of every skill, in tables you can scan.",
+    "glossary":          "The canonical terms — with the wording the harness forbids.",
+    "finder":            "Answer a few questions, get the exact skill to run.",
+    "the-rig":           "Skills, scripts, schemas, hooks, and the gates that say no.",
+    "vision":            "Where the harness is going and the principles that steer it.",
 }
 
 
 def category_overview(mode, here):
     """Per-category overview for the guides landing: intro + cards, from CATEGORIES."""
     out = []
-    for _ck, cen, cvi, ien, ivi, keys in CATEGORIES:
+    for _ck, clabel, intro, keys in CATEGORIES:
         out.append('<section class="cat-ov reveal">')
-        out.append(f'  <h2 class="sectitle"><span class="en">{cen}</span><span class="vi">{cvi}</span></h2>')
-        out.append(f'  <p class="lead cat-intro"><span class="en">{ien}</span><span class="vi">{ivi}</span></p>')
+        out.append(f'  <h2 class="sectitle">{clabel}</h2>')
+        out.append(f'  <p class="lead cat-intro">{intro}</p>')
         out.append('  <div class="cards grid-2">')
         for k in keys:
             g = _guide_meta(k)
             href = _href(k, mode, here)
-            den, dvi = GUIDE_DESC.get(k, ("", ""))
-            out.append(f'    <a class="card" href="{href}" style="--ac:{g[5]}"><h3><span class="pin"></span>'
-                       f'<span class="en">{g[1]}</span><span class="vi">{g[2]}</span></h3>'
-                       f'<p><span class="en">{den}</span><span class="vi">{dvi}</span></p></a>')
+            desc = GUIDE_DESC.get(k, "")
+            out.append(f'    <a class="card" href="{href}" style="--ac:{g[4]}"><h3><span class="pin"></span>'
+                       f'{g[1]}</h3><p>{desc}</p></a>')
         out.append('  </div>')
         out.append('</section>')
     return "\n".join(out)
@@ -359,7 +327,7 @@ def category_overview(mode, here):
 
 def gi_page_body(mode, here):
     """Guides landing body: hand-authored welcome + generated category overview."""
-    body = page_body(GUIDES_INDEX[3], mode, here)
+    body = page_body(GUIDES_INDEX[2], mode, here)
     return body.replace("<!--CATEGORY_OVERVIEW-->", category_overview(mode, here))
 
 
@@ -395,11 +363,7 @@ def shell(title, head_inject, view, header_html, sidebar_html, body_html,
         layout = body_html
     return (
         head(title, head_inject)
-        + f'<body class="lang-en view-{view}">\n'
-        # Restore the saved language before the content below paints — otherwise every
-        # navigation flashes English first, then swaps to the stored Vietnamese.
-        + '<script>try{if(localStorage.getItem(\'psh-lang\')===\'vi\')'
-          'document.body.classList.replace(\'lang-en\',\'lang-vi\');}catch(e){}</script>\n'
+        + f'<body class="view-{view}">\n'
         + GEN_BANNER + "\n"
         + CHROME + "\n"
         + header_html + "\n"
@@ -430,7 +394,7 @@ def build():
     script = '<script src="assets/lib/three.min.js"></script>\n<script src="assets/showcase.js"></script>'
     home_body = (page_body("hub.html", "multi", "home")
                  + '\n<div class="wrap">' + skill_nav("hub", "multi", "home") + "</div>")
-    out = shell(HOME[4], link, "home", header_slim("multi", "home"), None,
+    out = shell(HOME[3], link, "home", header_slim("multi", "home"), None,
                 home_body, footer_tpl, script)
     (HERE / "index.html").write_text(out, encoding="utf-8")
     written.append("index.html")
@@ -441,12 +405,12 @@ def build():
 
     gi_body = (crumb("guides", "multi", "guides") + "\n" + gi_page_body("multi", "guides")
                + '\n<div class="wrap">' + skill_nav("guides", "multi", "guides") + "</div>")
-    out = shell(GUIDES_INDEX[4], link_g, "guide", header_slim("multi", "guides"),
+    out = shell(GUIDES_INDEX[3], link_g, "guide", header_slim("multi", "guides"),
                 sidebar("guides", "multi", "guides"), gi_body, footer_tpl, script_g)
     (guides_dir / "index.html").write_text(out, encoding="utf-8")
     written.append("guides/index.html")
 
-    for key, _en, _vi, pf, title, _ac in GUIDES:
+    for key, _label, pf, title, _ac in GUIDES:
         body = (crumb(key, "multi", key) + "\n" + page_body(pf, "multi", key)
                 + '\n<div class="wrap">' + skill_nav(key, "multi", key) + "</div>")
         out = shell(title, link_g, "guide", header_slim("multi", key),
@@ -460,15 +424,15 @@ def build():
     panels = []
     for key in SEQ:
         if key == "hub":
-            inner = page_body(HOME[3], "single", "")
+            inner = page_body(HOME[2], "single", "")
         elif key == "guides":
             inner = gi_page_body("single", "")
         else:
-            inner = page_body(_guide_meta(key)[3], "single", "")
+            inner = page_body(_guide_meta(key)[2], "single", "")
         body = inner + '\n<div class="wrap">' + skill_nav(key, "single", "") + "</div>"
         panels.append(f'<div class="route" data-route="{key}">\n{body}\n</div>')
     main_single = "\n".join(panels)
-    out = shell(HOME[4], style_inline, "home", header_slim("single", ""),
+    out = shell(HOME[3], style_inline, "home", header_slim("single", ""),
                 sidebar("hub", "single", ""), main_single, footer_tpl,
                 script_inline, portable=True)
     (HERE / "product-spec-showcase.html").write_text(out, encoding="utf-8")

@@ -13,7 +13,7 @@ trail, NOT graph nodes). `md` is valid only for `audit`.
 
 CLI:
     visualize.py --view <name> --format <ascii|mermaid|html|md> --root <dir>
-                 [--lang en|vi] [--group-by status|horizon|moscow]
+                 [--lang en] [--group-by status|horizon|moscow]
                  [--layers goal,prd,epic,story] [--filter-wont]
                  [--snapshot <snapshot.json>]   # --diff is the legacy alias
 
@@ -234,7 +234,7 @@ def main() -> int:
     # default None → resolved per view: body views (board/explorer) → html, the
     # 9 graph views → ascii (preserves their long-standing default).
     ap.add_argument("--format", default=None, choices=FORMATS)
-    ap.add_argument("--lang", default="en", choices=["en", "vi"])
+    ap.add_argument("--lang", default="en", choices=["en"])
     ap.add_argument("--group-by", dest="group_by", default="status",
                     choices=["status", "horizon", "moscow"],
                     help="board: column grouping field (default status).")

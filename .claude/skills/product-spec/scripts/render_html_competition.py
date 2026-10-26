@@ -85,7 +85,7 @@ def _competition_matrix(competitors: list, prds: list, lang: str, cell_lookup) -
     """The parity matrix <table>: competitor NAME rows × PRD id columns, cells =
     the parity enum the PRD declared for that competitor (blank when unset). All
     spec text escaped server-side. Deterministic — competitors keep BRD order,
-    PRDs are sorted by id. Parity verdicts localize via i18n_labels (`--lang vi`);
+    PRDs are sorted by id. Parity verdicts localize via i18n_labels;
     the enum KEY stays English (it's the cell CLASS), only the displayed word
     localizes. An off-enum value (separately flagged unknown_enum) shows raw.
 

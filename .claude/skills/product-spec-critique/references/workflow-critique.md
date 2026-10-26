@@ -5,7 +5,7 @@ consolidator are READ-ONLY (they propose); only the main agent writes (the repor
 
 ## 0. Early-exit guards (before spawning ANY agent)
 
-- **No spec:** `docs/product/` absent OR the graph is empty → reply, in `--lang`, a friendly "chưa có spec để chửi, dùng `cleanmatic:product-spec` để viết spec trước đã" and STOP. Spawn no agents (no token/web cost on an empty repo).
+- **No spec:** `docs/product/` absent OR the graph is empty → reply, in `--lang`, a friendly "no spec to critique — use `cleanmatic:product-spec` to create a spec first" and STOP. Spawn no agents (no token/web cost on an empty repo).
 - **Venv missing:** the shared interpreter is absent → AskUserQuestion to run an installer (see SKILL.md venv note),
   then retry. Never fall back to system Python.
 - **critique_scan errors:** if `critique_scan.py` returns `{error,...}` (malformed spec, missing product-spec dir),
@@ -13,7 +13,7 @@ consolidator are READ-ONLY (they propose); only the main agent writes (the repor
 
 ## 1. Parse flags (or `--interactive`)
 
-- Resolve `scope` (default `all`), `lenses` (default all four), `lang` (default `vi`), `--no-web`.
+- Resolve `scope` (default `all`), `lenses` (default all four), `lang` (default `en`), `--no-web`.
 - **Level resolution (1..9):** an explicit `--level`/alias flag wins; otherwise the default is the `critique_level`
   preference (`preferences.load(root)["critique_level"]`, itself defaulting to **5**, no-mercy). So a flagless run is
   level 5 (the last level before a mandated roast) plus the standing-consent reminder; a PO who wants a different
@@ -29,17 +29,17 @@ consolidator are READ-ONLY (they propose); only the main agent writes (the repor
   standing reminder**, just run. (An ad-hoc `--no-mercy` / `--level 5` is likewise ungated.) The danger gate begins at
   6, where the attack turns into a mandated personal roast.
 - **Danger gate (levels 6 through 9).** These carry a warning because they cross the professional line in a way the
-  level-5 baseline does not. The escalation: 6 is a direct roast of effort/care; 7 attacks competence in the
-  confrontational `ông/tôi` register; 8 attacks character in the street `mày/tao` register; 9 adds work-targeted
-  profanity (`đm/vl`) and removes every internal restraint. How the gate resolves depends on the level AND where it
+  level-5 baseline does not. The escalation: 6 is a direct roast of effort/care; 7 attacks competence with cold
+  contempt, NO profanity; 8 turns on work-targeted profanity and attacks character; 9 adds sustained profanity
+  and removes every internal restraint. How the gate resolves depends on the level AND where it
   came from:
   - **Levels 6, 7, 8 — from an ad-hoc flag (no standing preference):** show the level-appropriate warning and ask for
     an explicit AskUserQuestion confirmation BEFORE spawning any agent. Never infer consent from vague phrasing.
     On a "no", fall back one step: 8→7, 7→6, 6→5 (5 is the ungated baseline, so a fall-back to 5 just runs).
   - **Levels 6, 7, 8 — from the `critique_level` preference (standing consent):** the PO opted in deliberately by
     setting the preference, so do NOT re-ask every run. Print the one-line danger reminder each run (never run silently),
-    in `--lang`: e.g. _"giọng mức 8 đang bật mặc định: critique sẽ chửi mày/tao, đánh vào năng lực lẫn tính cách; đừng
-    chia sẻ ra ngoài; đổi bằng `critique_level` trong preferences hoặc `--level`."_ Then proceed.
+    in `--lang`: e.g. _"warning: critique level 8 is active as default — it will include work-targeted profanity and
+    character attacks; do not share outside the team; change via `critique_level` preference or `--level`."_ Then proceed.
   - **Level 9 — ALWAYS re-confirms, regardless of source.** Whether 9 comes from the `critique_level: 9` preference OR a
     `--level 9` flag, whenever the resolved level is 9 the workflow shows the STRONGEST warning + an AskUserQuestion
     confirm **every run** (never a silent standing reminder). The warning names exactly what level 9 removes (the polite
@@ -53,33 +53,30 @@ consolidator are READ-ONLY (they propose); only the main agent writes (the repor
     still cites `ID:line` + ends in a fix; lv9 may interleave pure-scorn lines but each sits in a grounded finding block
     (scorn-count ≤ finding-count).
 
-## 1b. Register seeding (first time a level-7-9 voice is used)
+## 1b. Profanity seeding (first time a level-7-9 voice is used)
 
-The level-7-9 register knobs (`critique_address_gender`, `critique_dialect`, `critique_profanity`) default to
-`m`/`bac`/`strong`. The PO can hand-edit `preferences.yaml`, but they may not know the knobs exist. So the FIRST time a
-run resolves to level ≥ 7 (whether by flag or the `critique_level` preference) AND the seed has not been offered before,
-ask ONE `AskUserQuestion` batch (in `--lang`) to seed them, then persist via `preferences.save`:
+The profanity knob (`critique_profanity`) defaults to `strong`. The PO can hand-edit `preferences.yaml`, but they may
+not know the knob exists. So the FIRST time a run resolves to level ≥ 7 (whether by flag or the `critique_level`
+preference) AND the seed has not been offered before, ask ONE `AskUserQuestion` (in `--lang`) to seed it, then persist
+via `preferences.save`:
 
-- **Gender** (drives lv7 `ông/tôi` vs `bà/tôi`): "Xưng hô theo giới nào?" → `ông/tôi` (`m`) / `bà/tôi` (`f`).
-- **Dialect** (drives lv8+ pronoun, the PO's OWN voice): "Giọng vùng nào của chính bạn?" → Bắc `mày/tao` (`bac`) /
-  Trung `mi/tau` (`trung`) / Nam (`nam`).
-- **Profanity strength** (lv9, work-targeted): "Mức chửi thề (nhắm vào spec)?" → tắt (`off`) / `đm/vl` (`abbrev`) /
-  `đm/vl/vãi` (`strong`).
+- **Profanity strength** (lv9, work-targeted): "Profanity level (aimed at the spec)?" → off (`off`) / mild (`mild`) /
+  strong (`strong`).
 
 Ground the batch in the floor: state in one line that whatever they pick, the universal-harm floor holds (profanity
 only at the work, never threats / protected-trait slurs / family-target / self-harm / sexual). Per `GATE-NEVER-ASSUME`,
-these are stylistic seeds with documented defaults: if the PO skips, keep the defaults and say so. Persist the answers
+this is a stylistic seed with a documented default: if the PO skips, keep the default and say so. Persist the answer
 AND append a `critique_register_seeded` marker to `dismissed_reminders` (via `preferences.save`) so the batch is asked
-**once**, never re-offered. In `lang: en` the gender/dialect questions are no-ops (skip them; only ask profanity
-strength, which still distinguishes EN level 7 from 8). An explicit `--level`-time register flag, if ever added, would
-override; for now the batch is the only interactive seed.
+**once**, never re-offered. The `critique_address_gender` and `critique_dialect` knobs are no-ops in English and are
+skipped. An explicit `--level`-time register flag, if ever added, would override; for now the batch is the only
+interactive seed.
 
 ## 2. Verdict ammo: NO forced `--validate` (refined D8)
 
 `critique_scan.py` runs the structural checks FRESH (cheap) and reads cached LLM verdicts from `judgments.json`
 (may be empty). The skill does **NOT** auto-run `--validate`, validate is reproducible/PO-facing and must not be
 poisoned by a critique. If `cached_verdicts` is empty or the spec has drifted since the last validate, surface ONE
-line, "chạy `--validate` trước để critique sắc hơn (có thêm phán quyết chất lượng làm đạn)", and proceed anyway.
+line, "run `--validate` first for a sharper critique (adds quality verdicts as ammo)", and proceed anyway.
 The lens agents are the judgment layer; validate verdicts are supplementary ammo.
 
 ## 3. Build the bundle
@@ -125,7 +122,7 @@ Spawn the selected lenses concurrently via `Task`, each given: the bundle path, 
 
 - **Scope-aware:** at a single-story scope the **market** lens is usually thin, spawn it but tell it the scope is
   narrow, or skip it and let the consolidator note the omission. At `--scope all` the market lens is most valuable.
-- **Market grounding:** with no BRD `competitors:` AND `--no-web`, the market lens flags "thiếu căn cứ cạnh tranh"
+- **Market grounding:** with no BRD `competitors:` AND `--no-web`, the market lens flags "missing competitive grounding"
   and never fabricates competitors. With web enabled it may research + cite (url in the finding's `source`).
 - **Web-TTL gate (market lens).** Before the market lens fetches a URL, the main agent consults the web-cache
   (`critique_cache.get_cached(root, url, ttl_days=14)`): on a hit within TTL, pass the cached page text to the lens
@@ -147,14 +144,13 @@ Spawn the selected lenses concurrently via `Task`, each given: the bundle path, 
 ## 5. Consolidate
 
 **First, load the register + detail preferences and pass them in (do NOT skip).** Before spawning, the main agent
-runs `preferences.load(root)` and extracts `critique_address_gender`, `critique_dialect`, `critique_profanity`,
-`critique_detail_level`. These four values are INJECTED into the consolidate spawn prompt (and the humanize prompt in
-5b). Without this the agents render the defaults (`m` / `bac` / `abbrev` / `standard`) regardless of the PO's config,
-so a `gender: f` or `dialect: trung` preference would silently have no effect.
+runs `preferences.load(root)` and extracts `critique_profanity`,
+`critique_detail_level`. These values are INJECTED into the consolidate spawn prompt (and the humanize prompt in
+5b).
 
 Spawn `critique-consolidator` (opus) with: the available lens findings arrays + the bundle's `prior_reports` +
 the bundle's `inherited_context` + `descendant_rollup` (the consolidator is their ONLY consumer; render inherited
-items in a SEPARATE "Kế thừa từ cha" section NOT in the tally, and the rollup `verdict_line` in the parent's section) +
+items in a SEPARATE "Inherited from parent" section NOT in the tally, and the rollup `verdict_line` in the parent's section) +
 `scope`/`lang`/`level` + the four register/detail prefs above. **On a `consolidate_only` provenance branch (step 3a),
 the "lens findings arrays" you pass are the cached array loaded from the lens-cache, NOT a fresh fan-out** — same
 consolidator, new level. It dedups cross-lens, enforces the mechanical
@@ -171,10 +167,11 @@ renders ONE markdown body in the voice.
 > `scripts/tests/test_repeat_offense_litmus.py` (the LLM body is non-deterministic and is not diffed; only the
 > input-isolation is asserted).
 
-The register knobs apply ONLY at their own threshold: at levels 7 to 9 it
-renders the surface register from the prefs (`ông/tôi` vs `bà/tôi` by gender at 7; `mày/tao` vs `mi/tau` by dialect at
-≥8; work-targeted profanity per `critique_profanity` at 9). **Levels 1 to 6 ignore the register knobs entirely** even
-when passed, level 6 (roast) stays `bạn/tôi`; a `bà/tôi`/`mi/tau`/profanity leak at level ≤6 is a defect. It sizes the
+The register knobs apply ONLY at their own threshold: at levels 7 to 9 the consolidator renders
+English profanity per `critique_profanity` (off = zero profanity at level 7; mild = one beat at level 8; strong =
+sustained profanity at level 9). The `critique_address_gender` and `critique_dialect` knobs are no-ops in English.
+**Levels 1 to 6 ignore the register knobs entirely** even
+when passed, level 6 (roast) stays profanity-free; a profanity leak at level ≤6 is a defect. It sizes the
 report by `critique_detail_level` (concise = top-3 + one-line-per-lens, no extended pre-mortems; standard = current
 full per-lens; verbose = full per-lens + extended why-it-dies + more sources). It writes through Gate 1 of the
 humanizer (it consults `references/humanizer-and-anti-ai-tells.md` as it drafts) and reaffirms the universal-harm floor
@@ -182,7 +179,7 @@ humanizer (it consults `references/humanizer-and-anti-ai-tells.md` as it drafts)
 markdown TEXT, it does not write.
 
 - **Render the level's labels in the findings, not just in your head.** The active level's why/fix label wording (the
-  `voice-and-tone.md` table: e.g. L1 "Chỗ này đáng lưu tâm" / "Có thể thử", L3 "Toang ở đâu" / "Sửa") MUST actually
+  `voice-and-tone.md` table: e.g. L1 "Worth a look" / "Maybe try", L3 "Where it breaks" / "Fix") MUST actually
   appear on the rendered findings. A level-1 report whose findings carry no warm labels and read blunt is a level
   mismatch, the single most common voice defect.
 
@@ -194,11 +191,11 @@ spawn entirely; on a miss, spawn the humanizer (below), then store its result (`
 text)`). Identical consolidated input → identical humanized output, so this is a safe pure-token saving.
 
 Spawn `critique-humanizer` (sonnet) with the consolidator's markdown + `--lang`/`--level` + the same
-`critique_address_gender`/`critique_dialect`/`critique_profanity`/`critique_detail_level` values from step 5. It
-rewrites the prose to strip AI-tells and Vietnamese word-for-word-translation tells per
+`critique_profanity`/`critique_detail_level` values from step 5. It
+rewrites the prose to strip AI-tells per
 `references/humanizer-and-anti-ai-tells.md`, while preserving the bite, the level's tone (the level 5/6 personal attack
-stays; the level 7-9 harsher register AND the level-9 work-targeted profanity stay, do NOT soften `mày/tao` or strip
-`đm/vl` as an "AI-tell"), every finding, every evidence `ID:line`, every fix, and the structure. The one exception is
+stays; the level 7-9 harsher tone AND the level-9 work-targeted profanity stay, do NOT soften the attack or strip
+profanity as an "AI-tell"), every finding, every evidence `ID:line`, every fix, and the structure. The one exception is
 the universal-harm floor: that clause is LEVEL-AGNOSTIC and OVERRIDES the preserve instruction, if preserving venom
 would cross the floor (a real violence threat / protected-characteristic slur / self-harm / sexual / family-target
 profanity), the humanizer DROPS the line, it does not soften-and-keep. It returns the cleaned markdown. This pass is
@@ -256,11 +253,11 @@ Write the humanized markdown from step 5b (not the raw consolidator draft).
    ```bash
    ./.claude/skills/.venv/bin/python3 \
      .claude/skills/product-spec/scripts/decision_register.py --root <project> --append \
-     --title "<ruling>" --rationale "[nguồn: critique] <why>" --affects "<ids>"
+     --title "<ruling>" --rationale "[source: critique] <why>" --affects "<ids>"
    ```
    - The `decision_register.py` CLI has no `--source` flag and the DEC record schema has no provenance field (do NOT
      invent one, it would change the product-spec schema). Encode the provenance in the `--rationale` prose with a
-     leading `[nguồn: critique]` / `[source: critique]` marker so the ruling is still distinguishable from a
+     leading `[source: critique]` marker so the ruling is still distinguishable from a
      validate-contradiction DEC, without touching product-spec.
    - **GATE-NEVER-ASSUME:** never record a DEC without explicit confirm.
    - **GATE-NO-SILENT-REVERSAL:** if the item contradicts an `approved` artifact, present Keep / Change+re-approve /

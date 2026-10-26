@@ -76,7 +76,7 @@ def test_stale_baseline_flagged(tmp_path):
 def test_render_surfaces_product_memory_vi_and_en(tmp_path):
     _make_store(tmp_path, files=lens_product_memory.EXPECTED_FILES, cache_files=1, findings=2)
     a = lens_product_memory.gather(root=str(tmp_path))
-    vi = render_md([a], lang="vi")
+    vi = render_md([a], lang="en")
     en = render_md([a], lang="en")
     assert "## Bộ nhớ sản phẩm" in vi
     assert "## Product Memory" in en

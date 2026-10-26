@@ -12,10 +12,10 @@ don't operate from memory.**
 | export, decision, discover, reflect, update, status                             |      |
 | Critiquing an existing spec (4 lenses product/tech/market/craft, voice levels)  | `.claude/skills/product-spec-critique/SKILL.md` |
 | Usage/health read: which skills get used, script/subagent health, validate-pass | `.claude/skills/telemetry/SKILL.md` |
-| proxy — plain-Vietnamese analytics over local telemetry (read-only)             |      |
+| proxy — plain-English analytics over local telemetry (read-only)             |      |
 
 Speak product language (personas/problems/value/scope/acceptance) for the two product skills;
-plain-Vietnamese usage/health narration for `telemetry`.
+plain-English usage/health narration for `telemetry`.
 
 ---
 

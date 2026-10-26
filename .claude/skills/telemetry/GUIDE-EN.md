@@ -2,13 +2,11 @@
 
 A guide for **product owners**. Each use-case is a sample dialogue. The natural-language way (just ask) is preferred; the flag form is the equivalent.
 
-> Vietnamese version: [`GUIDE-VI.md`](./GUIDE-VI.md).
-
 ---
 
 ## 1. What it is, and what it is NOT
 
-`cleanmatic:telemetry` is a **read-only, honest read** of how your own skills and scripts are being used and whether they are healthy. It runs **eight lenses** over your local telemetry (skill invocations, sessions, script runs, subagent outcomes, memory tidiness) and narrates the results in plain Vietnamese (or English with `--lang en`).
+`cleanmatic:telemetry` is a **read-only, honest read** of how your own skills and scripts are being used and whether they are healthy. It runs **eight lenses** over your local telemetry (skill invocations, sessions, script runs, subagent outcomes, memory tidiness) and narrates the results in plain English.
 
 It is **NOT**:
 - A **market effectiveness** metric (E3). It sees *usage*, not *value*.
@@ -23,7 +21,7 @@ It is **NOT**:
 
 ## 2. Core concepts — the mental model (read this once)
 
-1. **Script gathers; LLM narrates.** The Python script (`analyze_telemetry.py`) reads append-only JSONL sinks (deterministic, stdlib + PyYAML) and produces JSON aggregates. The skill **narrates** those numbers in plain Vietnamese, following the narration contract (`references/narration-contract.md`).
+1. **Script gathers; LLM narrates.** The Python script (`analyze_telemetry.py`) reads append-only JSONL sinks (deterministic, stdlib + PyYAML) and produces JSON aggregates. The skill **narrates** those numbers in plain English, following the narration contract (`references/narration-contract.md`).
 
 2. **Eight lenses, one report.** The `--all` report shows all eight lenses (except forensics, which is a deep-dive separate from the dashboard). Each lens answers one question:
    - `usage` — which skills, how often, token weight, never-used?
@@ -48,7 +46,7 @@ It is **NOT**:
 
 ## 3. Your learning path
 
-- **First run:** `/cleanmatic:telemetry` at the default (all lenses, ascii, Vietnamese) and read the report. You'll see the shape: summary → usage → health → sessions → workflow → validate → memory → honesty gate.
+- **First run:** `/cleanmatic:telemetry` at the default (all lenses, ascii) and read the report. You'll see the shape: summary → usage → health → sessions → workflow → validate → memory → honesty gate.
 - **Then focus:** Pick one or two lenses (`--lens usage`, `--lens health`) to drill into.
 - **Try formats:** `--format md --top 5` for a concise markdown table, `--format mermaid` for charts, `--format json` to script further.
 - **Deep dive:** `--session <id>` to reconstruct a single session's skill flow (needs the session ID from the session lens).
@@ -85,7 +83,7 @@ NOT for: editing the spec, writing code, deleting skills, or fixing memory — t
 ### A1. Snapshot the whole stack
 
 > **You:** "Show me how my skills are being used and whether they're healthy."
-> **Assistant:** Runs all eight lenses, narrates in Vietnamese, ends with the honesty gate. Report shows: top invoked skills + token weight → never-used → script errors → subagent reliability → memory state → validate proxy → "Cái này KHÔNG đo được" (E3, any gated lens, token disclaimers).
+> **Assistant:** Runs all eight lenses, narrates in English, ends with the honesty gate. Report shows: top invoked skills + token weight → never-used → script errors → subagent reliability → memory state → validate proxy → "This CANNOT be measured" (E3, any gated lens, token disclaimers).
 >
 > Flag form: `/cleanmatic:telemetry` or `/cleanmatic:telemetry --lens all --format ascii`.
 
@@ -180,10 +178,10 @@ NOT for: editing the spec, writing code, deleting skills, or fixing memory — t
 
 ### C4. English mode
 
-> **You:** "Give me the report in English, not Vietnamese."
-> **Assistant:** Runs `--lang en` → fixed labels (headings, column headers, gate note) localize to English; LLM narrates in English too.
+> **You:** "Give me the report in English."
+> **Assistant:** Runs the default → fixed labels (headings, column headers, gate note) localize to English; LLM narrates in English.
 >
-> Flag form: `/cleanmatic:telemetry --lang en`.
+> Flag form: `/cleanmatic:telemetry`.
 
 ### C5. Custom lookback (days)
 
@@ -221,7 +219,7 @@ NOT for: editing the spec, writing code, deleting skills, or fixing memory — t
 | Spot script errors | `/cleanmatic:telemetry --lens health` |
 | Subagent reliability pie chart | `/cleanmatic:telemetry --lens reliability --format mermaid` |
 | Memory tidy check | `/cleanmatic:telemetry --lens memory` |
-| Full snapshot, english, markdown | `/cleanmatic:telemetry --lang en --format md` |
+| Full snapshot, english, markdown | `/cleanmatic:telemetry --format md` |
 | Last 14 days, usage only | `/cleanmatic:telemetry --days 14 --lens usage` |
 | Reconstruct a session | `/cleanmatic:telemetry --session <id>` |
 | Raw JSON for scripting | `/cleanmatic:telemetry --format json` |
@@ -315,7 +313,6 @@ The skill will translate your intent into flags and run the right lenses.
 
 - **Narration contract** (rules for honest language): `references/narration-contract.md`
 - **Full operating contract**: `SKILL.md`
-- **Vietnamese guide**: `GUIDE-VI.md`
 - **Lens modules**: `.claude/skills/telemetry/scripts/lens_*.py`
 - **Script source**: `.claude/skills/telemetry/scripts/analyze_telemetry.py`
 - **Changelog**: `CHANGELOG.md`

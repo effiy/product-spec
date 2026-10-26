@@ -21,7 +21,7 @@ path — this skill is offline; the PO exports analytics to a value, the registe
 records it. `verdict`: numeric metrics → computed by record_outcome.py
 (deterministic); non-numeric → PO-asserted (Hybrid B3).
 
-Bilingual: the note prose localizes per the session `lang`; frontmatter keys and
+The note prose localizes per the session `lang`; frontmatter keys and
 the `OUT-<n>` id stay English.
 -->
 

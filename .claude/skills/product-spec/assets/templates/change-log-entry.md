@@ -4,21 +4,21 @@ on every --update / --approve / generate flow.
 Format: one entry per change, append-only, newest at top.
 -->
 
-## {{date}} — {{change_type}} | {{change_type_vi}}
+## {{date}} — {{change_type}}
 
-- **Artifact | Tài liệu:** {{artifact_id}} ({{file}})
-- **Action | Hành động:** {{action}}
-- **Reason | Lý do:** {{reason}}
-- **Affected downstream | Ảnh hưởng phía dưới:** {{affected_set}}
-- **Dimensions touched | Chiều bị ảnh hưởng:** {{dims}}
-- **Author | Tác giả:** {{author}}
+- **Artifact:** {{artifact_id}} ({{file}})
+- **Action:** {{action}}
+- **Reason:** {{reason}}
+- **Affected downstream:** {{affected_set}}
+- **Dimensions touched:** {{dims}}
+- **Author:** {{author}}
 
 <!-- OPTIONAL: detail -->
-**Detail | Chi tiết:**
+**Detail:**
 
 {{detail}}
 <!-- /OPTIONAL -->
 
 <!-- OPTIONAL: po_decision -->
-**PO decision | Quyết định của PO:** {{po_decision}}
+**PO decision:** {{po_decision}}
 <!-- /OPTIONAL -->

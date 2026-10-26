@@ -718,12 +718,12 @@ format (markdown or print-ready HTML).
 
 ### D1 — Work in Vietnamese (or English)
 
-**When to use:** You want the interview and the content written in Vietnamese (or English).
+**When to use:** You want the interview and the content written in English.
 
-The skill is bilingual. When you choose Vietnamese, the interview questions, vision narrative, story
-descriptions, acceptance criteria, and visualization labels are all in Vietnamese. Only the **identifiers**
+The skill is English-only. The interview questions, vision narrative, story
+descriptions, acceptance criteria, and visualization labels are all in English. The **identifiers**
 (`BRD-G1`, `PRD-CHECKOUT`) and the **structural keys** (`personas`, `scope`, `moscow`…) stay in English so
-the structure remains stable and shared across both languages.
+the structure remains stable.
 
 #### Conversation
 

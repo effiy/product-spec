@@ -74,7 +74,7 @@ def test_prior_reports_fallback_no_frontmatter(tmp_path):
 
 def test_provenance_none_no_prior(tmp_path):
     proj = make_proj(tmp_path)
-    res = critique_scan.compute_provenance_reuse(proj, "all", 5, "vi")
+    res = critique_scan.compute_provenance_reuse(proj, "all", 5, "en")
     assert res["reuse"] == "none"
 
 
@@ -90,15 +90,15 @@ def test_provenance_filename_only_degrades_none(tmp_path):
     # A filename-only prior named c1-all-lvl3.md must NOT false-match scope.
     proj = make_proj(tmp_path)
     _write_report(proj, "c1-all-lvl3.md", "", body="# Critique: all · level 3\n")
-    assert critique_scan.compute_provenance_reuse(proj, "all", 3, "vi")["reuse"] == "none"
-    assert critique_scan.compute_provenance_reuse(proj, "all-lvl3", 3, "vi")["reuse"] == "none"
+    assert critique_scan.compute_provenance_reuse(proj, "all", 3, "en")["reuse"] == "none"
+    assert critique_scan.compute_provenance_reuse(proj, "all-lvl3", 3, "en")["reuse"] == "none"
 
 
 def test_provenance_full(tmp_path):
     proj = make_proj(tmp_path)
     fm = critique_scan.build_report_frontmatter(proj, "all", 5, "vi", None, "lh")
     _write_report(proj, "260603-0001-all.md", fm)
-    assert critique_scan.compute_provenance_reuse(proj, "all", 5, "vi")["reuse"] == "full"
+    assert critique_scan.compute_provenance_reuse(proj, "all", 5, "en")["reuse"] == "full"
 
 
 def test_provenance_consolidate_only_with_lens_cache(tmp_path):
@@ -109,7 +109,7 @@ def test_provenance_consolidate_only_with_lens_cache(tmp_path):
     critique_cache.put_lens_findings(proj, h, arr)
     fm = critique_scan.build_report_frontmatter(proj, "all", 3, "vi", None, h)
     _write_report(proj, "260603-0001-all.md", fm)
-    res = critique_scan.compute_provenance_reuse(proj, "all", 7, "vi")
+    res = critique_scan.compute_provenance_reuse(proj, "all", 7, "en")
     assert res["reuse"] == "consolidate_only"
     assert res["lens_findings_hash"] == h
 
@@ -118,7 +118,7 @@ def test_provenance_consolidate_only_missing_lens_cache_degrades_relens(tmp_path
     proj = make_proj(tmp_path)
     fm = critique_scan.build_report_frontmatter(proj, "all", 3, "vi", None, "absent-hash")
     _write_report(proj, "260603-0001-all.md", fm)
-    res = critique_scan.compute_provenance_reuse(proj, "all", 7, "vi")
+    res = critique_scan.compute_provenance_reuse(proj, "all", 7, "en")
     assert res["reuse"] == "relens"  # never a broken half-reuse
 
 
@@ -168,7 +168,7 @@ def test_provenance_relens_one_node(tmp_path):
     fm = critique_scan.build_report_frontmatter(proj, "all", 5, "vi", None, "lh")
     _write_report(proj, "260603-0001-all.md", fm)
     append_to(proj, "stories/PRD-AUTH-E1-S1.md", "\n\nbody shift\n")
-    res = critique_scan.compute_provenance_reuse(proj, "all", 5, "vi")
+    res = critique_scan.compute_provenance_reuse(proj, "all", 5, "en")
     assert res["reuse"] == "relens"
     assert res["changed_ids"] == ["PRD-AUTH-E1-S1"]
 
@@ -182,13 +182,13 @@ def test_provenance_fast_path_skips_report_read(tmp_path, monkeypatch):
     sg = _spec_graph()
     bh = critique_scan._scoped_content_hashes(sg, proj, "all")
     ph = critique_scan._provenance_hash(bh)
-    critique_cache.save_state(proj, "all", provenance_hash=ph, level=5, lang="vi",
+    critique_cache.save_state(proj, "all", provenance_hash=ph, level=5, lang="en",
                               report="docs/product/critique/260603-0001-all.md",
                               lens_findings_hash=None)
     called = {"hit": False}
     monkeypatch.setattr(critique_provenance, "_latest_frontmatter_prior",
                         lambda r, s: called.__setitem__("hit", True) or None)
-    res = critique_scan.compute_provenance_reuse(proj, "all", 5, "vi")
+    res = critique_scan.compute_provenance_reuse(proj, "all", 5, "en")
     assert res["reuse"] == "full"
     assert called["hit"] is False
 
@@ -200,10 +200,10 @@ def test_fast_path_dangling_report_falls_through(tmp_path):
     sg = _spec_graph()
     bh = critique_scan._scoped_content_hashes(sg, proj, "all")
     ph = critique_scan._provenance_hash(bh)
-    critique_cache.save_state(proj, "all", provenance_hash=ph, level=5, lang="vi",
+    critique_cache.save_state(proj, "all", provenance_hash=ph, level=5, lang="en",
                               report="docs/product/critique/GONE-all.md",
                               lens_findings_hash=None)
-    res = critique_scan.compute_provenance_reuse(proj, "all", 5, "vi")
+    res = critique_scan.compute_provenance_reuse(proj, "all", 5, "en")
     assert res["reuse"] == "none"
 
 

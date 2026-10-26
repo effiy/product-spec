@@ -82,7 +82,7 @@ def _run_persist(root: Path, input_path: Optional[str]) -> Dict[str, Any]:
         root,
         scope=env.get("scope", "all"),
         level=level,
-        lang=env.get("lang", "vi"),
+        lang=env.get("lang", "en"),
         lens_findings=env.get("lens_findings") or [],
         blocker_count=blocker_count,
         register=env.get("register"),
@@ -94,7 +94,7 @@ def main(argv: Optional[List[str]] = None) -> int:
     ap = argparse.ArgumentParser(description="product-spec-critique bundle/snapshot/drift assembler")
     ap.add_argument("--root", default=os.getcwd())
     ap.add_argument("--scope", default="all")
-    ap.add_argument("--lang", default="vi")
+    ap.add_argument("--lang", default="en")
     ap.add_argument("--level", type=int, default=None,
                     help="target critique level 1..9 (default: preferences.critique_level)")
     ap.add_argument("--fresh", "--force", dest="fresh", action="store_true",

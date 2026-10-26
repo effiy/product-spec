@@ -305,7 +305,7 @@ def main() -> int:
     )
     # --lang accepted for CLI-contract uniformity; this is a lang-agnostic JSON
     # feeder (English keys), so it is ignored (the LLM localizes the nudge prose).
-    ap.add_argument("--lang", default="en", choices=["en", "vi"])
+    ap.add_argument("--lang", default="en", choices=["en"])
     # Opt-in snapshot/restore (logic lives in snapshot.py; these are dispatch wires only).
     ap.add_argument("--snapshot", action="store_true",
                     help="Capture the current spec artifact tree into a timestamped snapshot.")

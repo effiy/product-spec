@@ -14,11 +14,11 @@ metadata:
 # cleanmatic:product-spec
 
 Product-Owner-facing skill for building and maintaining a strictly-traceable spec hierarchy: **Vision → 1 BRD → many
-PRDs → Epics → Stories (+AC)**. Drives a phased PO interview (bilingual EN/VI), persists artifacts as markdown with rich
+PRDs → Epics → Stories (+AC)**. Drives a phased PO interview (English-only), persists artifacts as markdown with rich
 YAML frontmatter under `docs/product/`, validates structure deterministically and judgment via LLM, and visualizes the
 spec tree in ASCII, Mermaid, and self-contained HTML.
 
-> 📘 **End-user guide (non-technical PO):** [`GUIDE-VI.md`](./GUIDE-VI.md) (Tiếng Việt) / [`GUIDE-EN.md`](./GUIDE-EN.md)
+> 📘 **End-user guide (non-technical PO):** [`GUIDE-EN.md`](./GUIDE-EN.md)
 > (English) — every use case as a full sample conversation, covering both the natural-language way (preferred) and the
 > flag-equivalent, with worked examples from the `examples/acme-shop` sample. Point the PO here first.
 
@@ -59,7 +59,7 @@ spec tree in ASCII, Mermaid, and self-contained HTML.
 | `--layers <types>` | Filter artifact types: `--export` buckets `vision,brd,prd,epic,story`; `--viz board/explorer` by type `goal,prd,epic,story`. Unknown token → **rejected** (non-zero), never silently dropped. · *When:* scope an export/board. · see `references/workflow-export.md` + `visualization-spec.md`. |
 | `--depth <preset>`         | `--export` verbosity: `context` (default) · `full` · `brief`.                                                                                                                                                                                                                                                                                                                               |
 | `--compact-mode <m>` | `--export` compaction: `struct` (default, deterministic) · `llm` (emits `<!-- COMPACT -->` markers; **requires `--format md`**, rejected with `html`). · *When:* summarize export sections. · see `references/workflow-export.md`. |
-| `--lang <code>` | Interview/output language: `en` (default) · `vi`. IDs + frontmatter keys stay English; labels/headings/facets localize. · *When:* switch working language. · see `references/workflow-lang.md`. |
+| `--lang <code>` | Interview/output language: `en` (default). IDs + frontmatter keys stay English; labels/headings/facets localize. · *When:* switch working language. · see `references/workflow-lang.md`. |
 | `--voice` | Record the PO's voice into `.memory/po-style.yaml` deterministically (`--register`/`--vocabulary`/`--recurring-asks`/`--do`/`--dont`, lang-keyed) — one writer home (`record_po_style`). · *When:* persist a wording preference. · see `references/behavioral-memory.md`. |
 | `preferences.py --set KEY=VALUE` | Write a PO preference deterministically (repeatable; **load→merge→save**, bad enum exits non-zero writing nothing). Persists the engagement knobs `interview_rigor` + `action_prompting` (default `standard`). · *When:* change a standing engagement setting. · see `references/workflow-interview.md` → *Engagement profile*. |
 | `--reflect` | Retroactive memory harvest: scan git + `.memory/` (degrade-safe), spawn the read-only opus harvester, propose unrecorded `DEC-<n>`/self-corrections/voice for PO confirm-then-persist. · *When:* recover skipped forcing-functions. · see `references/workflow-reflect.md`. |
@@ -79,7 +79,7 @@ When invoked without a flag, the skill inspects `docs/product/`:
   7. Approve (sign-off)
   8. Summary (1-page exec summary)
   9. Apply a critique (walk a `product-spec-critique` report finding-by-finding → record decisions)
-  10. Learn from reality / Học từ thực tế (record outcomes vs goals, or feed back real-world feedback)
+  10. Learn from reality (record outcomes vs goals, or feed back real-world feedback)
 
 ## Output Contract (in the user's project)
 
@@ -145,7 +145,7 @@ The lean skeleton above stays under ~300 lines; full prose lives in `references/
 - `references/workflow-export.md` — read-once Export: selection model (`--export` + `--layers`), depth presets,
   `--compact-mode llm` workflow, output naming.
 - `references/interview-vision.md`, `interview-brd.md`, `interview-prd.md`, `interview-epic.md`, `interview-story.md`,
-  `interview-frameworks.md` — bilingual EN/VI question banks + 5-Why / MoSCoW / story-mapping prompts. `--epic` loads
+  `interview-frameworks.md` — English question banks + 5-Why / MoSCoW / story-mapping prompts. `--epic` loads
   `interview-epic.md`; `--story` loads `interview-story.md` (progressive disclosure — load only the one the flag needs).
 - `references/workflow-interview.md`, `workflow-validate.md`, `workflow-auto.md`, `workflow-update.md`,
   `workflow-status.md`, `workflow-learn.md`, `workflow-discover.md`, `workflow-reflect.md`,
@@ -200,8 +200,7 @@ Load only the references relevant to the active flag. Skill resources (`scripts/
   hybrid — the skill never auto-flips.
 - **Never overwrite manual prose.** Delta-update flags affected downstream nodes for review; regeneration is opt-in per
   node.
-- **Bilingual.** EN and VI interview banks; IDs and frontmatter keys stay English. VI phrasing is native-reviewed
-  for natural wording.
+- **English-only.** EN interview banks; IDs and frontmatter keys stay English.
 
 Deeper LLM operating guidance lives in `references/` (loaded on demand by flag) and in the repo-root `CLAUDE.md`
 (auto-loaded by Claude Code).

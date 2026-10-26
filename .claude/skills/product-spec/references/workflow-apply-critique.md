@@ -26,7 +26,7 @@ Read prior progress: `apply_critique_progress.py --root <root> --lens-hash <h> -
 finding whose fingerprint is already resolved** — an interrupted run never re-litigates or double-records.
 
 ### 2. Per-finding interview (LLM)
-For each unresolved finding, present (bilingual per the report `lang`): the lens, the evidence
+For each unresolved finding, present (in English per the report `lang`): the lens, the evidence
 `ID:line`, the critique, why-it-dies, the proposed fix, **and the freshness tag**. If `freshness:
 unknown`, tell the PO plainly: *"this report predates freshness tracking — re-critique or proceed
 without a staleness check"* (never silently skip). Ask the PO to choose:

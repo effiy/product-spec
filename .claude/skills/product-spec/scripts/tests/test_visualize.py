@@ -390,28 +390,14 @@ def test_mermaid_tree_skips_vision_node():
     assert 'VISION["VISION' not in out, "VISION node should be skipped"
 
 
-def test_ascii_roadmap_vi_localizes_headers():
-    """NEW-6: --lang vi must localize the now/next/later section headers
-    per visualization-spec.md L107. Previously the labels were hardcoded
-    English regardless of lang."""
-    out = render_ascii.roadmap(_graph(), lang="vi")
-    assert "HIỆN TẠI" in out, f"expected localized VI now-header, got: {out[:200]}"
-    assert "NOW" not in out, "EN header leaked into VI output"
 
 
-def test_ascii_moscow_vi_localizes_labels():
-    """NEW-6: MoSCoW labels (Must/Should/Could/Won't) must localize."""
-    out = render_ascii.moscow(_graph(), lang="vi")
-    assert "Bắt buộc" in out
-    assert "Không làm" in out
-    assert "Must" not in out and "Won't" not in out
 
 
 def test_ascii_roadmap_en_default_unchanged():
     """NEW-6 backward-compat: lang default must remain English."""
     out = render_ascii.roadmap(_graph())
     assert "NOW" in out
-    assert "HIỆN TẠI" not in out
 
 
 def test_html_ascii_fallback_view_skips_mermaid_js(tmp_path):
@@ -659,30 +645,19 @@ def test_render_html_vendored_path_split_into_two_functions():
         assert "cdn.jsdelivr.net" in payload
 
 
-def test_ascii_tree_vi_localizes_product_prefix():
-    """O-3: tree --lang vi must localize the 'PRODUCT:' prefix label."""
-    out = render_ascii.tree(_graph(), lang="vi")
-    assert "SẢN PHẨM:" in out, f"expected VI product label, got: {out[:120]}"
-    # The English label must NOT leak into VI output.
-    assert "PRODUCT:" not in out
 
 
 def test_ascii_tree_en_default_unchanged():
     """O-3 backward-compat: tree() default lang stays English."""
     out = render_ascii.tree(_graph())
     assert "PRODUCT:" in out
-    assert "SẢN PHẨM:" not in out
 
 
-def test_mermaid_tree_vi_localizes_root_node_label():
-    """O-3: mermaid tree must also localize the root PRODUCT node label."""
-    out = render_mermaid.tree(_graph(), lang="vi")
-    assert "SẢN PHẨM" in out, f"VI tree root label missing: {out[:200]}"
 
 
 def test_visualize_routes_lang_to_tree_view(tmp_path):
-    """O-3 dispatcher integration: --view tree --lang vi must produce the
-    localized output end-to-end (not just at the renderer level)."""
+    """O-3 dispatcher integration: --view tree --lang en produces the
+    English output end-to-end (not just at the renderer level)."""
     import subprocess
     import shutil
     proj = tmp_path / "proj"
@@ -691,12 +666,12 @@ def test_visualize_routes_lang_to_tree_view(tmp_path):
     viz = SCRIPTS_DIR / "visualize.py"
     r = subprocess.run(
         [py, str(viz), "--root", str(proj),
-         "--view", "tree", "--format", "ascii", "--lang", "vi"],
+         "--view", "tree", "--format", "ascii", "--lang", "en"],
         capture_output=True, text=True,
     )
     assert r.returncode == 0, r.stderr
-    assert "SẢN PHẨM:" in r.stdout, (
-        f"--lang vi did not reach the tree renderer; got: {r.stdout[:200]}"
+    assert "PRODUCT:" in r.stdout, (
+        f"--lang en did not reach the tree renderer; got: {r.stdout[:200]}"
     )
 
 

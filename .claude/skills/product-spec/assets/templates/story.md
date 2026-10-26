@@ -23,24 +23,24 @@ acceptance_criteria: {{acceptance_criteria}}
 
 # {{title}} — Story {{id}}
 
-## User Story | Câu chuyện người dùng
+## User Story
 
-**As a** | **Với vai trò** {{persona}}
-**I want** | **Tôi muốn** {{want}}
-**so that** | **để** {{so_that}}.
+**As a** {{persona}}
+**I want** {{want}}
+**so that** {{so_that}}.
 
-## Acceptance Criteria | Tiêu chí chấp nhận
+## Acceptance Criteria
 
 {{acceptance_criteria_bullets}}
 
 <!-- OPTIONAL: notes -->
-## Notes | Ghi chú
+## Notes
 
 {{notes}}
 <!-- /OPTIONAL -->
 
 <!-- OPTIONAL: dependencies -->
-## Dependencies | Phụ thuộc
+## Dependencies
 
 {{dependencies}}
 <!-- /OPTIONAL -->

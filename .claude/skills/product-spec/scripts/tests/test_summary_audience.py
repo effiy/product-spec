@@ -76,4 +76,4 @@ def test_release_delta_bilingual_empty_state(tmp_path):
     root = _spec_root(tmp_path)
     delta = aat.since_last_approved(root)
     assert "No audit events yet." in aat.render_release_delta_md(delta, "en")
-    assert "Chưa có sự kiện" in aat.render_release_delta_md(delta, "vi")
+    assert "No audit events yet." in aat.render_release_delta_md(delta, "en")

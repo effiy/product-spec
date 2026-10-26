@@ -42,40 +42,40 @@ goals: {{goals}}
 competitors: {{competitors}}
 ---
 
-# Business Requirements Document | Tài liệu Yêu cầu Kinh doanh
+# Business Requirements Document
 
-## Problem / Opportunity | Vấn đề / Cơ hội
+## Problem / Opportunity
 
 {{problem_opportunity}}
 
-## Business Goals | Mục tiêu kinh doanh
+## Business Goals
 
 {{goals_section}}
 
-## Success Metrics | Chỉ số thành công
+## Success Metrics
 
 {{metrics_section}}
 
-## Stakeholders | Bên liên quan
+## Stakeholders
 
 {{stakeholders}}
 
-## Constraints | Ràng buộc
+## Constraints
 
 {{constraints}}
 
-## Market Context | Bối cảnh thị trường
+## Market Context
 
 {{market_context}}
 
 <!-- OPTIONAL: assumptions_risks -->
-## Assumptions & Risks | Giả định và Rủi ro
+## Assumptions & Risks
 
 {{assumptions_risks}}
 <!-- /OPTIONAL -->
 
 <!-- OPTIONAL: goal_metric_table -->
-## Goal → Metric Table | Bảng Mục tiêu → Chỉ số
+## Goal → Metric Table
 
 | Goal ID | Goal | Metric | Target |
 |---------|------|--------|--------|

@@ -13,7 +13,7 @@ all resolve to that default and NEVER crash the caller. The interview flow reads
 this through `load()`; the read hook itself lives in `workflow-interview.md`.
 
 Keys (all optional in the file):
-  lang                 en | vi              — default interview/output language
+  lang                 en                  — default interview/output language
   detail_level         concise | standard | verbose — PRODUCT-SPEC output verbosity
                        (sizes vision/PRD/story prose + interview follow-ups). Wired
                        in workflow-interview.md. SEPARATE from critique_detail_level.
@@ -37,19 +37,13 @@ Keys (all optional in the file):
                        (concise = top-3 + terse per-lens; verbose = full per-lens +
                        extended pre-mortems). SEPARATE from detail_level; the two never
                        bleed into each other.
-  critique_address_gender  m | f — level-7 address form: ông/tôi (m) ↔ bà/tôi (f).
-                       Vietnamese-only; a no-op in lang: en.
-  critique_dialect     bac | trung | nam — level-8+ pronoun, the PO's OWN voice
-                       (self-configured, not regional mockery): mày/tao (bac) ↔
-                       mi/tau (trung) ↔ nam. Vietnamese-only; a no-op in lang: en.
-  critique_profanity   off | abbrev | strong (default strong) — level-9 profanity AIMED
-                       AT THE WORK: off ↔ đm/vl (abbrev) ↔ đm/vl/vãi (strong). Default is
-                       strong because level 9 re-confirms with the PO every run anyway.
-                       The enum is a STRENGTH
-                       tier, not a token list — the work-vs-person TARGET rule (and which
-                       tokens are IN/OUT) lives in voice-and-tone.md's IN/OUT table, not
-                       here. Euphemistic minced oaths (đậu xanh) are IN there; only the
-                       LITERAL family-target form (đụ má mày) is OUT.
+   critique_address_gender  (deprecated) — was Vietnamese-only level-7 address form.
+   critique_dialect         (deprecated) — was Vietnamese-only level-8+ pronoun config.
+   critique_profanity   off | abbrev | strong (default strong) — level-9 profanity AIMED
+                        AT THE WORK. Default is strong because level 9 re-confirms with
+                        the PO every run anyway. The enum is a STRENGTH tier, not a token
+                        list — the work-vs-person TARGET rule lives in voice-and-tone.md's
+                        IN/OUT table, not here.
   critique_inherit     on | off (default on) — product-spec-critique cross-critique INHERIT
                        (parent→child): surface a parent's prior blockers/DEC as the
                        child's inherited risk. ENUM-registered (not bare bool) so the
@@ -73,8 +67,9 @@ Keys (all optional in the file):
                        turn boundaries. Wired in workflow-interview.md.
 
 The level-applicability of the register keys (gender at 7, dialect at ≥8, profanity at
-9) and the universal-harm floor are LLM-workflow/voice concerns, not schema concerns
-(script-vs-LLM split): this module only stores closed-enum values, it judges nothing.
+9 — all deprecated as Vietnamese-only features) and the universal-harm floor are
+LLM-workflow/voice concerns, not schema concerns (script-vs-LLM split): this module only
+stores closed-enum values, it judges nothing.
 """
 
 import sys
@@ -116,13 +111,12 @@ DEFAULTS: Dict[str, Any] = {
     "critique_level": 5,
     # SPEC-CRITIQUE report verbosity — separate from detail_level above.
     "critique_detail_level": "standard",
-    # Level-7 address form (ông/tôi vs bà/tôi); Vietnamese-only, no-op in en.
-    "critique_address_gender": "m",
-    # Level-8+ pronoun, the PO's own self-configured voice; Vietnamese-only, no-op in en.
-    "critique_dialect": "bac",
-    # Level-9 profanity aimed at the WORK; no family/sexual-target token representable.
-    # Default = strong: level 9 already re-confirms with the PO on EVERY run, so when it
-    # does fire, it runs at full power rather than a half-measure.
+    # Level-7 address form (ông/tôi vs bà/tôi); deprecated — Vietnamese-only, no-op now.
+    "critique_address_gender": None,
+    # Level-8+ pronoun, the PO's own self-configured voice; deprecated — Vietnamese-only, no-op now.
+    "critique_dialect": None,
+    # Level-9 profanity strength tier (default strong). The work-vs-person TARGET rule
+    # and which tokens are IN/OUT lives in voice-and-tone.md's IN/OUT table, not here.
     "critique_profanity": "strong",
     # product-spec-critique cross-critique context (both default ON, opt-out). ENUM on/off so
     # the YAML bool coercion below maps `critique_inherit: off` back to the "off" token.
@@ -147,18 +141,16 @@ DEFAULTS: Dict[str, Any] = {
 # Closed enums per scalar key. A value outside its set is treated as absent
 # (read path: fall back to default; write path: PreferenceError).
 ENUMS: Dict[str, frozenset] = {
-    "lang": frozenset({"en", "vi"}),
+    "lang": frozenset({"en"}),
     "detail_level": frozenset({"concise", "standard", "verbose"}),
     "prioritization": frozenset({"moscow", "value-effort", "manual"}),
     # 1..9: 9 is a VALID standing default; the per-run re-confirm + downgrade-to-8
     # for a resolved 9 is workflow behaviour (workflow-critique), not a schema check.
     "critique_level": frozenset(range(1, 10)),
     "critique_detail_level": frozenset({"concise", "standard", "verbose"}),
-    "critique_address_gender": frozenset({"m", "f"}),
-    "critique_dialect": frozenset({"bac", "trung", "nam"}),
-    # Strength tier only; the target-based floor (which tokens are IN/OUT, e.g. the
-    # euphemism đậu xanh is IN, the literal đụ má mày is OUT) lives in voice-and-tone.md's
-    # IN/OUT table, not in this enum.
+    # critique_address_gender and critique_dialect are deprecated (Vietnamese-only); removed from ENUMS.
+    # Strength tier only; the target-based floor (which tokens are IN/OUT)
+    # lives in voice-and-tone.md's IN/OUT table, not in this enum.
     "critique_profanity": frozenset({"off", "abbrev", "strong"}),
     # on/off ENUM-registered (mirroring critique_profanity) so the YAML bool coercion
     # maps `off`/`on` back to the string token instead of leaving a bare Python bool.

@@ -101,8 +101,8 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--session", help="forensics: parse one session by id")
     ap.add_argument("--all-sessions", action="store_true", help="forensics: across all sessions")
     ap.add_argument("--format", choices=["md", "json", "ascii", "mermaid"], default="md")
-    ap.add_argument("--lang", choices=["vi", "en"], default="vi",
-                    help="language for fixed scaffolding labels (vi default; LLM narrates prose in this language)")
+    ap.add_argument("--lang", choices=["en"], default="en",
+                    help="language for fixed scaffolding labels (en default; LLM narrates prose in this language)")
     ap.add_argument("--export-summary", metavar="PATH", default=None,
                     help="write the markdown aggregate to PATH (default: .claude/telemetry/usage-summary.md)")
     ap.add_argument("--auto-suggest", action="store_true",
@@ -152,7 +152,7 @@ def _harvester_section(args) -> str:
     except Exception as exc:  # noqa: BLE001 — harvester must never crash the CLI
         return f"## Suggestions\n\n_Harvester error: {exc}_\n"
 
-    lang = getattr(args, "lang", "vi")
+    lang = getattr(args, "lang", "en")
     import telemetry_render  # noqa: E402
     heading = telemetry_render._t(lang, "suggest_h")
     if not suggestions:

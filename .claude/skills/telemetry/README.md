@@ -1,8 +1,6 @@
 # cleanmatic:telemetry
 
-A **read-only** skill that tells a (non-technical) product owner, **in plain Vietnamese**, how their skills are being used, whether scripts and subagents are healthy, and whether the spec validate passed. Eight opinionated lenses + four output formats; no editing, no CI gate, no network calls.
-
-> 🇬🇧 **English** below · 🇻🇳 **Tiếng Việt** ở nửa dưới (cuộn xuống mục **Tiếng Việt**).
+A **read-only** skill that tells a (non-technical) product owner, **in plain English**, how their skills are being used, whether scripts and subagents are healthy, and whether the spec validate passed. Eight opinionated lenses + four output formats; no editing, no CI gate, no network calls.
 
 ---
 
@@ -12,16 +10,16 @@ A **read-only** skill that tells a (non-technical) product owner, **in plain Vie
 
 Three things in one read-only window:
 
-1. **Mức dùng (Usage)** — which skills are invoked, how often, approx. tokens per skill, and which owned skills are never touched.
-2. **Sức khỏe (Health)** — which scripts error, run slowly, whether subagents succeed, whether memory is tidy.
+1. **Usage** — which skills are invoked, how often, approx. tokens per skill, and which owned skills are never touched.
+2. **Health** — which scripts error, run slowly, whether subagents succeed, whether memory is tidy.
 3. **A thin internal-quality proxy** — did `product-spec --validate` pass? (This is **not** market effectiveness — that is E3, deliberately deferred.)
 
 ### How to run
 
 ```bash
-/cleanmatic:telemetry                    # default: all lenses, ascii format, Vietnamese
+/cleanmatic:telemetry                    # default: all lenses, ascii format
 /cleanmatic:telemetry --lens usage       # one lens at a time
-/cleanmatic:telemetry --format md --top 10 --lang en    # markdown, top-10 items, English
+/cleanmatic:telemetry --format md --top 10    # markdown, top-10 items
 ```
 
 Flags (all optional):
@@ -32,7 +30,7 @@ Flags (all optional):
 | `--format` | `ascii` / `md` / `mermaid` / `json` | `ascii` | Output format |
 | `--days` | integer | 30 | Lookback period (days) |
 | `--top` | integer | (md only) | Limit markdown to top N items |
-| `--lang` | `vi` / `en` | `vi` | Fixed label language (VI is default, native quality) |
+| `--lang` | `en` | `en` | Fixed label language (English) |
 | `--session` | UUID | — | For forensics: reconstruct one session |
 | `--all-sessions` | — | — | For forensics: list all session IDs |
 
@@ -67,10 +65,10 @@ Requires Python 3.9+ and PyYAML (the bundle's single runtime dependency, shipped
 
 ### How lenses work (deterministic gather → LLM narrates)
 
-The skill **never computes** — a Python script (`analyze_telemetry.py`) gathers deterministically, then the LLM **narrates** the results in plain Vietnamese. The split:
+The skill **never computes** — a Python script (`analyze_telemetry.py`) gathers deterministically, then the LLM **narrates** the results in plain English. The split:
 
 - **Script** (`.claude/skills/telemetry/scripts/analyze_telemetry.py`): no judgment, produces JSON aggregates (stdlib + PyYAML).
-- **Skill** (the LLM): reads the aggregates, narrates them honestly, phrases recommendations as **gợi ý** (suggestions) only.
+- **Skill** (the LLM): reads the aggregates, narrates them honestly, phrases recommendations as **suggestions** only.
 
 ```bash
 # In the cleanmatic dev repo, use the shared venv:
@@ -94,17 +92,17 @@ Append-only JSONL sinks under `.claude/telemetry/` (gitignored, runtime data onl
 
 Five fail-open hooks auto-register on install (opt out: `register_telemetry_hooks.py --remove`).
 
-### Low-volume gate ("chưa đủ dữ liệu")
+### Low-volume gate ("insufficient data")
 
-Below ~5 data points, a lens shows raw counts + **"chưa đủ dữ liệu" (insufficient data)** and suppresses recommendations. On a thin repo, **most lenses ARE gated** — the report says so plainly; no trends are invented.
+Below ~5 data points, a lens shows raw counts + **"insufficient data"** and suppresses recommendations. On a thin repo, **most lenses ARE gated** — the report says so plainly; no trends are invented.
 
 ### The honesty gate (mandatory)
 
-Every report **ends** with **"Cái này KHÔNG đo được"** (This cannot be measured):
+Every report **ends** with **"This CANNOT be measured"**:
 
 - **E3 / market outcome** — whether the product wins in the market. Telemetry sees *usage*, not *value*.
-- **Any gated lens** — named explicitly with "chưa đủ dữ liệu".
-- **Approx disclaimers** — tokens, ms, exit codes are directional (ước lượng), never exact.
+- **Any gated lens** — named explicitly with "insufficient data".
+- **Approx disclaimers** — tokens, ms, exit codes are directional (estimate), never exact.
 
 ### What it is NOT
 
@@ -116,7 +114,7 @@ Every report **ends** with **"Cái này KHÔNG đo được"** (This cannot be m
 
 ### Learning path
 
-- **First run:** `/cleanmatic:telemetry` at the default (all lenses, ascii) and **read the report**. The structure: tóm tắt (summary) → mức dùng (usage) → sức khỏe (health) → sessions → workflow → validate → memory → "Cái này KHÔNG đo được" (honesty section).
+- **First run:** `/cleanmatic:telemetry` at the default (all lenses, ascii) and **read the report**. The structure: summary → usage → health → sessions → workflow → validate → memory → "This CANNOT be measured" (honesty section).
 - **Then focus:** `--lens usage` to see which skills are cold, `--lens health` to spot script errors, `--lens validate` for internal quality.
 - **Experiment:** try `--format md --top 5` for a concise markdown table, `--format mermaid` for a pie/bar chart.
 - **Deep dive:** `--session <id>` to reconstruct a single session's skill/tool/token flow.
@@ -134,14 +132,14 @@ Every report **ends** with **"Cái này KHÔNG đo được"** (This cannot be m
 ### Boundaries
 
 - **Read-only.** No edits to spec/code/catalog/memory; no network; needs PyYAML (the bundle's one dep) but no telemetry-specific venv.
-- **No `--apply`.** This is a diagnostic skill, not a fixer. Recommendations are **gợi ý** only.
+- **No `--apply`.** This is a diagnostic skill, not a fixer. Recommendations are suggestions only.
 - **One dependency (PyYAML).** Runs on system `python3` with PyYAML present (shipped via the bundle); the cleanmatic dev repo provides it through the shared venv.
 - **GATE-NEVER-ASSUME / GATE-NO-SILENT-REVERSAL:** Not applicable in the usual sense (nothing is written/approved), but the skill still never fabricates a metric — an absent signal is reported as absent.
 
 ### Caveats
 
 - **Never-used external skills** (e.g., `ck:code-review`, `com:mcp-builder`) are **not listed** — PO doesn't own them, so non-use is normal. Only **never-used cleanmatic skills** (`cleanmatic:*`) are flagged.
-- **Token weight is approximate.** Derived from transcript length + a rough per-skill coefficient; never exact, always labeled "ước lượng".
+- **Token weight is approximate.** Derived from transcript length + a rough per-skill coefficient; never exact, always labeled "estimate".
 - **The validate proxy is internal quality only** — see the narration contract (`references/narration-contract.md`) for what "internal quality" means vs. E3.
 
 ### Deep links
@@ -156,149 +154,3 @@ Every report **ends** with **"Cái này KHÔNG đo được"** (This cannot be m
 
 - (TBD in future releases)
 
----
-
-## Tiếng Việt
-
-Skill (do người dùng gọi) **chỉ đọc không sửa**, nói cho người làm sản phẩm (không kỹ thuật) **bằng tiếng Việt bình thường**: skills đang được dùng cách nào, script/subagent có khỏe không, spec validate có pass không. Tám lăng kính + bốn định dạng đầu ra; không sửa, không cổng CI, không gọi mạng.
-
-### Đó là cái gì
-
-Ba thứ trong một cửa sổ chỉ-đọc:
-
-1. **Mức dùng (Usage)** — skill nào được gọi, bao nhiêu lần, tokens ước lượng mỗi skill, và skill nào của mình chưa dùng bao giờ.
-2. **Sức khỏe (Health)** — script nào chạy lỗi, chạy chậm, subagent có thành công không, bộ nhớ có gọn không.
-3. **Một tín hiệu chất lượng nội bộ** — `product-spec --validate` có pass không? (Đây **KHÔNG PHẢI** hiệu quả thị trường — đó là E3, cố tình để dành.)
-
-### Cách chạy
-
-```bash
-/cleanmatic:telemetry                    # mặc định: tất cả lăng kính, ascii, tiếng Việt
-/cleanmatic:telemetry --lens usage       # từng lăng kính một
-/cleanmatic:telemetry --format md --top 10 --lang en    # markdown, top-10, tiếng Anh
-```
-
-Cờ (đều là tùy chọn):
-
-| Cờ | Giá trị | Mặc định | Tác dụng |
-|------|---------|---------|---------|
-| `--lens` | `usage` / `session` / `health` / `reliability` / `workflow` / `validate` / `memory` / `forensics` / `all` | `all` | Lăng kính nào |
-| `--format` | `ascii` / `md` / `mermaid` / `json` | `ascii` | Định dạng đầu ra |
-| `--days` | số nguyên | 30 | Khoảng thời gian nhìn lại (ngày) |
-| `--top` | số nguyên | (chỉ md) | Giới hạn markdown top N mục |
-| `--lang` | `vi` / `en` | `vi` | Ngôn ngữ nhãn cố định (VI mặc định, chất lượng native) |
-| `--session` | UUID | — | Forensics: dựng lại một phiên |
-| `--all-sessions` | — | — | Forensics: liệt kê mọi ID phiên |
-
-### Cài đặt
-
-```bash
-./install.sh                    # tạo venv chung, đăng ký hook telemetry
-./install.sh --no-hooks         # chỉ runtime, không tự động đăng ký hook
-```
-
-Windows: `powershell -ExecutionPolicy Bypass -File .\install.ps1` (thêm `-NoHooks` nếu cần). Cần Python 3.9+ và PyYAML (phụ thuộc runtime duy nhất của bundle, đi kèm product-spec). Chạy trên system `python3`; không cần venv riêng cho telemetry.
-
-### 8 lăng kính sơ lược
-
-| Lăng kính | Đọc từ | Hiển thị | Bị chặn? |
-|------|-------|-------|--------|
-| `usage` | Log gọi + transcript | Top invoked skill, token weight (ước lượng), chưa dùng | < ~5 data point |
-| `session` | Session summary | Count, avg/median duration, co-occurrence, file+tool | < ~5 data point |
-| `health` | Script telemetry | Per-script run, error rate, avg ms (ước lượng) | < ~5 data point |
-| `reliability` | Subagent outcome | Success / api_error / timeout / blocked / unknown | < ~5 data point |
-| `workflow` | Invocation + declared chain | Actual skill chain vs routing-doc; sai lệch | < ~5 data point |
-| `validate` | Validate marker + script run | Validate pass/fail (chất lượng nội bộ, KHÔNG E3) | < ~5 data point |
-| `memory` | `.claude/projects/*/memory/` | Hạng mục mồ côi, dead index, broken `[[link]]`, lâu cũ | Luôn thấy (chỉ-đọc) |
-| `forensics` | Session transcript JSONL | Một phiên dựng lại (skill, tool, token, duration) | Cần `--session <id>` |
-
-### Lăng kính hoạt động cách nào (gather định tính → LLM kể chuyện)
-
-Skill **không tính toán gì** — một Python script (`analyze_telemetry.py`) gather định tính, rồi LLM **kể chuyện** kết quả bằng tiếng Việt bình thường. Phân công:
-
-- **Script** (`.claude/skills/telemetry/scripts/analyze_telemetry.py`): không phán đoán, ra JSON aggregates (stdlib + PyYAML).
-- **Skill** (LLM): đọc aggregates, kể chuyện với thật lòng, đề xuất dưới dạng **gợi ý** chứ không phải lệnh.
-
-```bash
-# Trong repo cleanmatic, dùng venv chung:
-.claude/skills/.venv/bin/python3 .claude/skills/telemetry/scripts/analyze_telemetry.py \
-  --lens all --format ascii --days 30
-
-# Người nhận (có system python3):
-python3 .claude/skills/telemetry/scripts/analyze_telemetry.py \
-  --lens all --format ascii --days 30
-```
-
-### Nguồn dữ liệu
-
-JSONL sink chỉ-append dưới `.claude/telemetry/` (gitignore, chỉ runtime):
-
-- `invocations.jsonl` — skill gọi.
-- `sessions.jsonl` — session tóm tắt.
-- `hook-telemetry.jsonl` — script chạy + lỗi.
-- `subagent-outcomes.jsonl` — subagent thành công/thất bại.
-- `last_validated.json` — validate marker snapshot.
-
-5 hook tự đăng ký fail-open khi cài (opt out: `register_telemetry_hooks.py --remove`).
-
-### Cổng dữ liệu ít ("chưa đủ dữ liệu")
-
-< ~5 data point, lăng kính hiển thị count thô + **"chưa đủ dữ liệu"** và chặn gợi ý. Trên repo mỏng, **hầu hết lăng kính BỊ CHẶN** — báo cáo nói thẳng; không tạo xu hướng.
-
-### Cổng thật lòng (bắt buộc)
-
-Mỗi báo cáo **kết thúc** bằng **"Cái này KHÔNG đo được"**:
-
-- **E3 / hiệu quả thị trường** — sản phẩm thắng trên thị trường không. Telemetry thấy *usage*, không *value*.
-- **Lăng kính bị chặn nào** — liệt kê tường minh với "chưa đủ dữ liệu".
-- **Tuyên bố ước lượng** — token, ms, exit code là ước lượng, không chính xác.
-
-### Những điều nó KHÔNG phải
-
-- **Không phải** metric E3 / hiệu quả thị trường. Proxy validate = "spec tốt lành", không "user nhận".
-- **Không phải** writer — không sửa spec, code, catalog, memory. Không `--apply`, không fix.
-- **Không phải** đúng tính tiền — token + ms là ước lượng, không exact.
-- **Không phải** cổng CI — số liệu neutral cho PO đọc; không chặn gì.
-- **Không phải** crash-log analyzer — script instrumented thiếu rich `errors.jsonl`; đợi BACKLOG.
-
-### Lộ trình học
-
-- **Lần đầu:** `/cleanmatic:telemetry` mặc định (all lense, ascii) rồi **đọc báo cáo**. Cấu trúc: tóm tắt → mức dùng → sức khỏe → session → workflow → validate → memory → "Cái này KHÔNG đo được" (phần thật lòng).
-- **Rồi thu hẹp:** `--lens usage` xem skill nào lạnh, `--lens health` bắt script lỗi, `--lens validate` chất lượng nội bộ.
-- **Thí nghiệm:** try `--format md --top 5` markdown gọn, `--format mermaid` biểu đồ pie/bar.
-- **Sâu hơn:** `--session <id>` dựng lại một phiên (skill/tool/token flow).
-
-### Đầu ra
-
-- **Báo cáo:** in ra terminal (hoặc ghi nếu redirect stdout).
-- **Định dạng:**
-  - `ascii` — terminal nhìn qua nhanh.
-  - `md` — bảng markdown + kể chuyện (copy-paste dễ).
-  - `mermaid` — pie/bar chart, fenced, không mạng/JS.
-  - `json` — aggregates thô cho script.
-- **Mốc:** `/etc/claude/projects/<root>/memory/` (chỉ-đọc; script gather, không ghi).
-
-### Ranh giới
-
-- **Chỉ-đọc.** Không sửa spec/code/catalog/memory; không mạng; cần PyYAML (phụ thuộc duy nhất của bundle) nhưng không cần venv riêng cho telemetry.
-- **Không `--apply`.** Đây là diagnostic skill, không fixer. Gợi ý thôi.
-- **Một phụ thuộc (PyYAML).** Chạy trên system `python3` khi có PyYAML (đi kèm bundle); venv chỉ cần khi dev trong cleanmatic repo.
-- **GATE-NEVER-ASSUME / GATE-NO-SILENT-REVERSAL:** Không áp dụng thường lệ (không viết/approved), nhưng skill không bao giờ bịa metric — tín hiệu vắng được báo là vắng.
-
-### Cảnh báo
-
-- **Skill external chưa dùng** (e.g., `ck:code-review`, `com:mcp-builder`) **KHÔNG liệt kê** — PO không sở hữu, nên vắng là bình thường. Chỉ **skill cleanmatic chưa dùng** (`cleanmatic:*`) được cảnh báo.
-- **Token weight ước lượng.** Từ transcript length + hệ số rough per-skill; không exact, luôn ghi "ước lượng".
-- **Validate proxy chỉ chất lượng nội bộ** — xem narration contract (`references/narration-contract.md`) để hiểu "chất lượng nội bộ" vs E3.
-
-### Đường dẫn sâu
-
-- **Hợp đồng kể chuyện (quy tắc ngôn ngữ thật lòng):** `references/narration-contract.md`
-- **Hợp đồng hoạt động (SKILL.md đầy đủ):** `SKILL.md`
-- **Hướng dẫn đầy đủ + use case:** `GUIDE-VI.md`
-- **Module lăng kính:** `.claude/skills/telemetry/scripts/lens_*.py`
-- **Script (gather định tính):** `.claude/skills/telemetry/scripts/analyze_telemetry.py`
-
-### Ví dụ làm xong
-
-- (Sẽ có ở phiên bản tương lai)

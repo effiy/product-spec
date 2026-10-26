@@ -48,64 +48,64 @@ competitive_parity: {{competitive_parity}}
 
 # {{title}} — PRD {{id}}
 
-## Overview & Problem | Tổng quan và Vấn đề
+## Overview & Problem
 
 {{overview_problem}}
 
-## Personas | Nhóm người dùng
+## Personas
 
 {{personas_section}}
 
-## Use Cases / Flows | Tình huống sử dụng / Luồng
+## Use Cases / Flows
 
 {{use_cases}}
 
-## Functional Requirements (MoSCoW) | Yêu cầu chức năng (MoSCoW)
+## Functional Requirements (MoSCoW)
 
-### Must | Bắt buộc
+### Must
 
 {{must_have}}
 
-### Should | Nên có
+### Should
 
 {{should_have}}
 
-### Could | Có thể có
+### Could
 
 {{could_have}}
 
-### Won't (this round) | Không (lần này)
+### Won't (this round)
 
 {{wont_have}}
 
-## Non-Functional Requirements | Yêu cầu phi chức năng
+## Non-Functional Requirements
 
 {{nfrs}}
 
-## Success Metrics → BRD Goals | Chỉ số thành công → Mục tiêu BRD
+## Success Metrics → BRD Goals
 
 {{success_metrics}}
 
 <!-- OPTIONAL: scope_in_out -->
-## Scope In / Out | Phạm vi Trong / Ngoài
+## Scope In / Out
 
-**In scope | Trong phạm vi:**
+**In scope:**
 
 {{scope_in}}
 
-**Out of scope | Ngoài phạm vi:**
+**Out of scope**
 
 {{scope_out}}
 <!-- /OPTIONAL -->
 
 <!-- OPTIONAL: dependencies_risks -->
-## Dependencies & Risks | Phụ thuộc và Rủi ro
+## Dependencies & Risks
 
 {{dependencies_risks}}
 <!-- /OPTIONAL -->
 
 <!-- OPTIONAL: open_questions -->
-## Open Questions | Câu hỏi mở
+## Open Questions
 
 {{open_questions}}
 <!-- /OPTIONAL -->

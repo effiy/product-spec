@@ -4,7 +4,7 @@ type: epic
 prd: PRD-FUND
 brd_goals: ["BRD-G2"]
 status: draft
-lang: vi
+lang: en
 owner: TBD
 version: 0.1.0
 created: 2026-06-06

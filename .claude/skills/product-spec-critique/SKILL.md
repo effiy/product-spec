@@ -5,7 +5,7 @@ user-invocable: true
 when_to_use: "Invoke when a product owner wants an honest, opinionated critique of an existing spec, 'tear this apart', 'is this any good', 'what would a skeptic say', across product value, feasibility, market, and writing craft. NOT for drafting/validating a spec (that is cleanmatic:product-spec); this only critiques what already exists."
 category: product
 keywords: [ critique, review, product-spec, brutal, sarcasm, prd, brd, epic, story, market, feasibility, craft ]
-argument-hint: "[scope] [--product|--tech|--market|--craft] [--interactive] [--lang vi|en] [--no-web] [--level 1..9]"
+argument-hint: "[scope] [--product|--tech|--market|--craft] [--interactive] [--lang en] [--no-web] [--level 1..9]"
 metadata:
   author: cleanmatic
   version: "1.3.1"
@@ -16,10 +16,10 @@ metadata:
 A **consumer** skill that critiques the spec produced by `cleanmatic:product-spec`. It reads the spec's
 structure + `--validate` verdicts as *ammunition*, then fans out four read-only lens critics
 (product/tech/market/craft) in parallel and merges them with an opus consolidator into ONE markdown
-critique, in a fixed sarcastic-but-grounded Vietnamese (or English) voice. Every line carries an
+critique, in a fixed sarcastic-but-grounded English voice. Every line carries an
 evidence `ID:line`, a why-it-dies, and a fix. It **never edits the spec** and **never gates CI**.
 
-> 📘 **PO guide:** [`GUIDE-VI.md`](./GUIDE-VI.md) (Tiếng Việt) / [`GUIDE-EN.md`](./GUIDE-EN.md), every flag,
+> 📘 **PO guide:** [`GUIDE-EN.md`](./GUIDE-EN.md), every flag,
 > every lens, every use-case as a sample dialogue over the `acme-shop` example. Point the PO there first.
 
 ## When to Use
@@ -52,14 +52,14 @@ what validate *cannot*: the product/market/craft consequence + a fix. (See **Ant
 | `[scope]` | The artifact to critique by ID (`PRD-AUTH`, `PRD-AUTH-E1`, `PRD-AUTH-E1-S1`) or `all` (default). The full **ancestry** is always pulled as judgment context, even for one story; `all` = the whole tree (expensive, note shown). · *When:* target one node vs everything. · see `references/workflow-critique.md`. |
 | `--product` / `--tech` / `--market` / `--craft` | Run only the named lens(es). Default = all four. |
 | `--interactive` | AskUserQuestion to pick scope + lenses + level before running. |
-| `--lang vi\|en` | Critique language. Default `vi`. IDs + frontmatter keys stay English. |
+| `--lang en` | Critique language: English. IDs + frontmatter keys stay English. |
 | `--no-web` | Disable the market lens's WebSearch/WebFetch. With no BRD `competitors:` it then **flags missing competitive grounding** rather than fabricating. |
 | `--fresh` / `--force` | Bypass ALL reuse: force a full fresh run (`provenance.reuse = none`), re-running every lens even when nothing changed. Use after a fix you want re-judged from scratch. |
 | `--refresh-web` | Force the market lens to re-fetch URLs (ignore the 14-day web-cache) and re-store. `--no-web` still wins (no fetch at all). |
 | `--no-inherit` | Disable the parent→child **inherited_context** (the parent's prior blockers surfaced as the child's risk). Beats `--inherit deep` (off wins over depth). Default ON. |
 | `--no-rollup` | Disable the child→parent **descendant_rollup** (critiqued children's verdicts aggregated onto the parent). Default ON. |
 | `--inherit nearest\|deep` | Inherit depth (implies inherit ON): `nearest` (default) = nearest critiqued ancestor per branch + the latest `scope=all` critique; `deep` = every critiqued ancestor in the chain. |
-| `--level 1..9` | Voice intensity. Default = the `critique_level` preference (`5` `--no-mercy`, the **ungated baseline**); the flag overrides it. Aliases (1-6): `--warm`(1) `--gentle`(2) `--blunt`(3) `--savage`(4) `--no-mercy`(5) `--roast`(6); **7-9 have no alias**. Levels 1-4 forbid personal attack (artifact only); 5 lifts the redline; **levels 6-9 carry a danger gate** (warning + AskUserQuestion when ad-hoc, standing-pref reminder 6-8); **9 adds work-profanity, RE-CONFIRMS via AskUserQuestion on EVERY run, downgrades to 8 on decline**. Register at 7-9 reads `critique_address_gender`/`critique_dialect`/`critique_profanity`. **Universal-harm floor at ALL levels** (even 9, even with consent): never real violence threats / protected-characteristic slurs / self-harm / sexual / family-target profanity. Every level keeps evidence + a fix per line. · *When:* set how brutal. · see `references/voice-and-tone.md` (IN/OUT floor table + the nine levels). |
+| `--level 1..9` | Voice intensity. Default = the `critique_level` preference (`5` `--no-mercy`, the **ungated baseline**); the flag overrides it. Aliases (1-6): `--warm`(1) `--gentle`(2) `--blunt`(3) `--savage`(4) `--no-mercy`(5) `--roast`(6); **7-9 have no alias**. Levels 1-4 forbid personal attack (artifact only); 5 lifts the redline; **levels 6-9 carry a danger gate** (warning + AskUserQuestion when ad-hoc, standing-pref reminder 6-8); **9 adds work-profanity, RE-CONFIRMS via AskUserQuestion on EVERY run, downgrades to 8 on decline**. **Universal-harm floor at ALL levels** (even 9, even with consent): never real violence threats / protected-characteristic slurs / self-harm / sexual / family-target profanity. Every level keeps evidence + a fix per line. · *When:* set how brutal. · see `references/voice-and-tone.md` (IN/OUT floor table + the nine levels). |
 
 ## Output contract
 
@@ -75,7 +75,7 @@ what validate *cannot*: the product/market/craft consequence + a fix. (See **Ant
 ```mermaid
 flowchart TD
     A[parse flags / --interactive pick] --> G{docs/product exists & non-empty?}
-    G -->|no| Z[friendly 'chưa có spec để chửi', spawn NO agents]
+    G -->|no| Z[friendly 'no spec to critique yet', spawn NO agents]
     G -->|yes| B[critique_scan.py: structural FRESH + cached verdicts + ancestry + digest + competitors + prior reports]
     B --> C{cache empty/stale?}
     C -->|yes| C1[suggest 'chạy --validate trước', proceed anyway]
@@ -85,7 +85,7 @@ flowchart TD
     E --> E2[critique-humanizer sonnet: Gate 2 - strip AI/translation tells, keep the bite + findings]
     E2 --> F[main agent WRITES docs/product/critique/<ts>-<scope>.md + --snapshot]
     F --> H{DEC-worthy flagged?}
-    H -->|yes| I[AskUserQuestion per item → on confirm: decision_register.py --append, rationale [nguồn: critique]]
+    H -->|yes| I[AskUserQuestion per item → on confirm: decision_register.py --append, rationale [source: critique]]
     H -->|no| J[done]
 ```
 
@@ -101,7 +101,7 @@ A critique line must NOT merely restate a structural finding. Enforced two ways 
 
 ## The bundle contract (what the lens agents consume)
 
-`critique_scan.py --root <proj> --scope <id|all> --lang <vi|en> [--level N] [--fresh] [--no-inherit] [--no-rollup]
+`critique_scan.py --root <proj> --scope <id|all> --lang <en> [--level N] [--fresh] [--no-inherit] [--no-rollup]
 [--inherit nearest|deep]` emits ONE JSON bundle. Top-level keys:
 `bundle_version (=2), scope, lang, target_ids, ancestry{vision,brd_goals[],prd,epic}, digest[], source_files{},
 structural_findings[], cached_verdicts[], competitors[], prior_reports[], drift_threshold, provenance{},
@@ -141,9 +141,8 @@ inherited_context[], descendant_rollup{}, parse_errors[]`.
   `critique-state.json` (per-scope provenance fast-path marker), `web-cache/<url-hash>.json` (market URL + 14-day TTL),
   `humanized-cache.json` (reuse humanized output when consolidated text is unchanged).
 - Reused (read-only) from `product-spec/scripts/`: `decision_register.py` (the DEC bridge), `preferences.py` (the
-  `critique_drift_threshold` default 3; `critique_level` 1..9 default 5; the level-7-9 register knobs
-  `critique_address_gender` m/f, `critique_dialect` bac/trung/nam, `critique_profanity` off/abbrev/strong (default
-  strong, since level 9 re-confirms every run); `critique_detail_level` concise/standard/verbose sizing the report;
+  `critique_drift_threshold` default 3; `critique_level` 1..9 default 5; the level-7-9 register knob
+  `critique_profanity` off/on (default on, since level 9 re-confirms every run); `critique_detail_level` concise/standard/verbose sizing the report;
   and the cross-critique knobs `critique_inherit` on/off, `critique_rollup` on/off, `critique_inherit_depth`
   nearest/deep, all default on / nearest — registered in product-spec's `preferences.py`).
 

@@ -205,7 +205,7 @@ def _existing_memory_index(root) -> Dict[str, List[str]]:
     })
 
     # po-style is lang-keyed; surface the recorded field keys per lang that actually
-    # carry content, so the harvester can tell "voice already captured for en/vi".
+    # carry content, so the harvester can tell "voice already captured for en".
     po_keys: List[str] = []
     for lang in sorted(bm.LANGS):
         style = bm.load_po_style(root, lang)

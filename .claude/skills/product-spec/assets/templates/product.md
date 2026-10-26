@@ -3,7 +3,7 @@ TEMPLATE: PRODUCT.md
 Token convention: {{token}} substituted by generate_templates.py.
 Optional sections wrapped in <!-- OPTIONAL: name --> ... <!-- /OPTIONAL -->.
 generate_templates.py drops optional blocks the PO chose to skip.
-Bilingual headers: EN above, VI below (commented). lang chooses which is kept.
+English headers.
 -->
 ---
 id: PRODUCT
@@ -23,36 +23,36 @@ core_value: "{{core_value}}"
 personas: {{personas}}
 ---
 
-# {{name}} — Product Context | Bối cảnh sản phẩm
+# {{name}} — Product Context
 
-> Thin labels only. Narrative lives in `vision.md`. Stakeholders / business goals live in `brd.md`. — Chỉ nhãn ngắn. Phần kể chi tiết ở `vision.md`. Mục tiêu kinh doanh ở `brd.md`.
+> Thin labels only. Narrative lives in `vision.md`. Stakeholders / business goals live in `brd.md`.
 
-## One-Line Description | Mô tả một câu
+## One-Line Description
 
 {{one_line_description}}
 
-## Core Value | Giá trị cốt lõi
+## Core Value
 
 _(authoritative value lives in frontmatter `core_value` field — see top of file. Body deliberately blank to keep one source of truth.)_
 
-## Current Implementation | Hiện trạng triển khai
+## Current Implementation
 
 {{current_implementation}}
 
-## Deployment | Triển khai
+## Deployment
 
 {{deployment}}
 
-## Roadmap One-Liner | Lộ trình một câu
+## Roadmap One-Liner
 
 {{roadmap_one_liner}}
 
-## Personas | Nhóm người dùng
+## Personas
 
 {{personas_bullets}}
 
 <!-- OPTIONAL: contact -->
-## Contact | Liên hệ
+## Contact
 
 {{contact}}
 <!-- /OPTIONAL -->

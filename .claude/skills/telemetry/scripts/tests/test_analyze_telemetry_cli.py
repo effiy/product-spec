@@ -93,13 +93,13 @@ def test_health_lens_json(cli, capsys):
 
 
 def test_lang_flag_localizes_ascii(cli, capsys):
-    # default (vi) → Vietnamese banner; --lang en → English banner. Same data.
+    # default (en) → English banner; --lang en → English banner. Same data.
     cli.main(["--lens", "usage", "--days", "36500", "--format", "ascii"])
-    vi = capsys.readouterr().out
+    default_en = capsys.readouterr().out
     cli.main(["--lens", "usage", "--days", "36500", "--format", "ascii", "--lang", "en"])
-    en = capsys.readouterr().out
-    assert "MỨC DÙNG" in vi and "USAGE" in en
-    assert "5" in vi and "5" in en  # the invocation count is language-neutral
+    explicit_en = capsys.readouterr().out
+    assert "USAGE" in default_en and "USAGE" in explicit_en
+    assert "5" in default_en and "5" in explicit_en  # the invocation count is language-neutral
 
 
 def test_lang_rejects_unknown_value(cli):
@@ -158,7 +158,7 @@ class TestExportSummaryDefaultPathIsCanonical:
             session = None
             all_sessions = False
             format = "md"
-            lang = "vi"
+            lang = "en"
             lens = "usage"
             overview = False
 
